@@ -1,0 +1,19 @@
+
+import requests
+import json
+
+data={
+	"task_id": "12345",
+	"type": "0",
+	"model": "iswift",
+	"start": "20181221122200",
+	"end": "20181221112600",
+	"kpi": "OUT_FLOW"
+}
+#url="http://127.0.0.1:8888"
+url="http://10.10.27.130:8383/locate"
+data_json = json.dumps(data)
+headers = {'Content-type': 'application/json'}
+response = requests.post(url, data=data_json, headers=headers)
+
+print(response.text)
