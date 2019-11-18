@@ -26,5 +26,5 @@ class Locate:
         i=0
 
 if __name__ == "__main__":
-    locate = Locate(1,1,1,20190610083800,20190610183800,"OUT__FLOW")
+    locate = Locate(1,1,1,20190610083800,20190610085000,"OUT_FLOW")
     locate.getDataFromES()
