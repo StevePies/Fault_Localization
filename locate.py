@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import es_load 
 
 class Locate:
@@ -24,3 +25,6 @@ class Locate:
 
     def insert_to_db():
         i=0
+
+if __name__ == "__main__":
+    locat = Locate(1,1,1,20190610083800,20190610183800,"OUT__FLOW")
