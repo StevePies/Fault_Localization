@@ -52,8 +52,8 @@ def set_search_optional(start,end,kpi):
                         },
                         "_source": ["TIMESTAMP", "DOMAIN", "province", "user_type", "os", "cdn_srever"]
                     }
-    es_search_options['query']["range"]["TIMESTAMP"]["gte"]=long(start)
-    es_search_options['query']["range"]["TIMESTAMP"]["lte"]=long(end)
+    es_search_options['query']["range"]["TIMESTAMP"]["gte"]=int(start)
+    es_search_options['query']["range"]["TIMESTAMP"]["lte"]=int(end)
     es_search_options["_source"].append(kpi)
     print(es_search_options)
     return es_search_options
