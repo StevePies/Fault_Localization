@@ -52,7 +52,7 @@ class Locate:
                 _df = merge_df.groupby(item)['error'].value_counts().unstack()
                 for index, row in _df.iterrows():
                     row_dict = row.to_dict()  
-                    print(index,row_dict)          
+                    #print(index,row_dict)          
                     _temp_list=[]
                     _temp_list_2=[]
                     if 1 not in row_dict.keys():
@@ -73,7 +73,7 @@ class Locate:
                     
                     for i in ix:
                         if(i in item):
-                            print(i,ix,item)
+                            #print(i,ix,item)
                             _temp_list.append(_temp_list_2[ix.index(i)])
                         else:
                             _temp_list.append("*")
