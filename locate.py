@@ -73,6 +73,7 @@ class Locate:
                     
                     for i in ix:
                         if(i in item):
+                            print(i,ix,item)
                             _temp_list.append(_temp_list_2[item.index(i)])
                         else:
                             _temp_list.append("*")
