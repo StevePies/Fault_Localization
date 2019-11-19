@@ -21,10 +21,11 @@ class Locate:
             temp_list.append(item['province'])            
             temp_list.append(item['user_type'])
             temp_list.append(item['os'])
-            temp_list.append(item['cdn_server'])
+            temp_list.append(item['cdn_srever'])
             temp_list.append(item['error'])
             temp_list.append(item['value'])        
             self.list.append(temp_list)
+        print("get data from es successful!")
        
     def dimCombination(self,dim_arr,i):
         result = []
