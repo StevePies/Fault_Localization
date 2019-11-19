@@ -21,7 +21,10 @@ def handle_request(_task_id,_type,_model,_start,_end,_kpi):
     locate = Locate(_task_id,_type,_model,_start,_end,_kpi)
     print ('thread %s is running ' % threading.current_thread().name)
     print(_task_id,_type,_model,_start,_end,_kpi)
-    final_results = es_load.search()
+    locate.getDataFromES()
+    locate.groupby_3d()
+    locate.iswift()
+    locate.insert_to_db
 
 
 class _restful(Resource):
