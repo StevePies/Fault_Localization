@@ -22,9 +22,14 @@ class Locate:
             temp_list.append(item['user_type'])
             temp_list.append(item['os'])
             temp_list.append(item['cdn_srever'])
-            temp_list.append(item['error'])
-            temp_list.append(item['value'])        
+            #temp_list.append(item['error'])
+            temp_list.append(item[self._kpi])
+            if(float(item[self._kpi]) >10000):
+                temp_list.append(0)
+            else:
+                temp_list.append(1)
             self.list.append(temp_list)
+        print(temp_list[0])
         print("get data from es successful!")
        
     def dimCombination(self,dim_arr,i):
