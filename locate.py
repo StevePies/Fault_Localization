@@ -68,10 +68,14 @@ class Locate:
                     if(isinstance(index,int)):
                         index=str(index)
                     if(isinstance(index,str)):
+                        if(index==""):
+                            print("======")
+                            index = "kong"
                         _temp_list_2.append(index)
+                        
                     else:
                         _temp_list_2=list(index)
-                    
+                    print(_temp_list_2)
                     for i in ix:
                         if(i in item):
                             print(i,ix,item)
