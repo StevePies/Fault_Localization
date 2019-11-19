@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
 import es_load 
 import pandas as pd
 import itertools,math
@@ -47,12 +48,12 @@ class Locate:
         self.d3_tree = []
         for i in range (1,4):
             dim_combin_list = self.dimCombination(ix,i)
-            #print(dim_combin_list)
+            print(dim_combin_list)
             for item in dim_combin_list:
                 _df = merge_df.groupby(item)['error'].value_counts().unstack()
                 for index, row in _df.iterrows():
                     row_dict = row.to_dict()  
-                    #print(index,row_dict)          
+                    print(index,row_dict)          
                     _temp_list=[]
                     _temp_list_2=[]
                     if 1 not in row_dict.keys():
@@ -73,8 +74,8 @@ class Locate:
                     
                     for i in ix:
                         if(i in item):
-                            #print(i,ix,item)
-                            _temp_list.append(_temp_list_2[ix.index(i)])
+                            print(i,ix,item)
+                            _temp_list.append(_temp_list_2[item.index(i)])
                         else:
                             _temp_list.append("*")
 
