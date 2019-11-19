@@ -78,7 +78,7 @@ class Locate:
                     #print(temp)
                     #print("+++++")
                     print(_temp_list)
-                    d3_tree.append(_temp_list)
+                    self.d3_tree.append(_temp_list)
 
         
     def iswift(self):
