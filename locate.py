@@ -29,7 +29,7 @@ class Locate:
             else:
                 temp_list.append(1)
             self.list.append(temp_list)
-        print(temp_list[0])
+        print(self.list_append[0])
         print("get data from es successful!")
        
     def dimCombination(self,dim_arr,i):
@@ -45,7 +45,7 @@ class Locate:
         index =  ['DOMAIN', 'province', 'user_type', 'os', 'cdn_server']
         self.d3_tree = []
         for i in range (1,4):
-            dim_combin_list = dimCombination(index,i)
+            dim_combin_list = self.dimCombination(index,i)
             for item in dim_combin_list:
                 _df = merge_df.groupby(item)['error'].value_counts().unstack()
                 for index, row in _df.iterrows():
