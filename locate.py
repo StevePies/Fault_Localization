@@ -31,6 +31,8 @@ class Locate:
                 temp_list.append(1)
             self.list.append(temp_list)
         print(self.list[0])
+        tt = pd.DataFrame(data=self.list)
+        tt.to_csv("result.csv",encoding="utf-8",index=None,columns=None)
         print("get data from es successful!")
        
     def dimCombination(self,dim_arr,i):
@@ -102,4 +104,4 @@ class Locate:
 if __name__ == "__main__":
     locate = Locate(1,1,1,20190610083800,20190610084500,"OUT_FLOW")
     locate.getDataFromES()
-    locate.groupby_3d()
+    #locate.groupby_3d()
