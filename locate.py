@@ -29,7 +29,7 @@ class Locate:
             else:
                 temp_list.append(1)
             self.list.append(temp_list)
-        print(self.list_append[0])
+        print(self.list[0])
         print("get data from es successful!")
        
     def dimCombination(self,dim_arr,i):
@@ -91,6 +91,6 @@ class Locate:
         i=0
 
 if __name__ == "__main__":
-    locate = Locate(1,1,1,20190610083800,20190610085000,"OUT_FLOW")
+    locate = Locate(1,1,1,20190610083800,20190610084500,"OUT_FLOW")
     locate.getDataFromES()
     locate.groupby_3d()
