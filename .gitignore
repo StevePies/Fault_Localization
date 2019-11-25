@@ -5,3 +5,4 @@
 *.egg
 *.egg-info
 dist
+.vscode

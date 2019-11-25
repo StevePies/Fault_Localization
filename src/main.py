@@ -24,7 +24,7 @@ def handle_request(_task_id,_type,_model,_start,_end,_kpi):
     locate.getDataFromES()
     locate.groupby_3d()
     locate.iswift()
-    locate.insert_to_db
+    locate.insert_to_db()
 
 
 class _restful(Resource):

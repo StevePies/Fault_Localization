@@ -2,7 +2,11 @@
 # -*- coding: UTF-8 -*-
 import es_load 
 import pandas as pd
-import itertools,math
+import itertools,math,sys
+from iswift import iswift 
+
+reload(sys)  
+sys.setdefaultencoding('utf8')   
 
 class Locate:
     def __init__(self, _task_id,_type,_model,_start,_end,_kpi):
@@ -18,6 +22,10 @@ class Locate:
         es_data = es_load.search(self._start,self._end,self._kpi)
         for item in es_data:
             temp_list = []
+            
+            #TODO
+            #字段可能为空 需要判断
+            #之后error字段可以直接获取，需要修改
             temp_list.append(item['DOMAIN'])
             temp_list.append(item['province'])            
             temp_list.append(item['user_type'])
@@ -30,9 +38,8 @@ class Locate:
             else:
                 temp_list.append(1)
             self.list.append(temp_list)
-        print(self.list[0])
-        tt = pd.DataFrame(data=self.list)
-        tt.to_csv("result.csv",encoding="utf-8",index=None,columns=None)
+            #print(temp_list)
+
         print("get data from es successful!")
        
     def dimCombination(self,dim_arr,i):
@@ -50,12 +57,13 @@ class Locate:
         self.d3_tree = []
         for i in range (1,4):
             dim_combin_list = self.dimCombination(ix,i)
-            print(dim_combin_list)
+            #print(dim_combin_list)
+
             for item in dim_combin_list:
                 _df = merge_df.groupby(item)['error'].value_counts().unstack()
                 for index, row in _df.iterrows():
                     row_dict = row.to_dict()  
-                    print(index,row_dict)          
+     
                     _temp_list=[]
                     _temp_list_2=[]
                     if 1 not in row_dict.keys():
@@ -66,35 +74,35 @@ class Locate:
                         row_dict[0]=0
                     if math.isnan(row_dict[1]):
                         row_dict[1]=0
-                    
-                    if(isinstance(index,int)):
-                        index=str(index)
-                    if(isinstance(index,str)):
-                        if(index==""):
-                            print("======")
-                            index = "kong"
+                    #print(index,type(index),isinstance(index,unicode))
+                    if(isinstance(index,unicode)):
                         _temp_list_2.append(index)
-                        
-                    else:
-                        _temp_list_2=list(index)
-                    print(_temp_list_2)
+                    if(isinstance(index,tuple)):
+                        _temp_list_2 = list(index)
+
                     for i in ix:
                         if(i in item):
-                            print(i,ix,item)
+                            #print(i,ix,item)
                             _temp_list.append(_temp_list_2[item.index(i)])
                         else:
                             _temp_list.append("*")
 
                     _temp_list.append(row_dict[0])
                     _temp_list.append(row_dict[1])
-                    #print(temp)
-                    #print("+++++")
-                    print(_temp_list)
+                    #print(_temp_list)
                     self.d3_tree.append(_temp_list)
         
-    def iswift(self):
+        #print("3d data length:"+str(len(self.d3_tree)))
+        #print(self.list[0])
+        #print(self.d3_tree[0])
+        print("groupby finished!")
+                    
+    def algorithm(self):
         #TODO
-        i=0
+        # 根据model字段判断使用什么模型
+        ift = iswift(self.d3_tree,self.list)
+        ift.run()
+        
 
 
     def insert_to_db(self):
@@ -102,6 +110,7 @@ class Locate:
         i=0
 
 if __name__ == "__main__":
-    locate = Locate(1,1,1,20190610083800,20190610084500,"OUT_FLOW")
+    locate = Locate(1,1,1,20190610113700,20190610114000,"OUT_FLOW")
     locate.getDataFromES()
-    #locate.groupby_3d()
+    locate.groupby_3d()
+    locate.algorithm()
