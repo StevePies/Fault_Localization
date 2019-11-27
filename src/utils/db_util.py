@@ -5,7 +5,7 @@ import yaml
 class MysqldbHelper:
     #获取数据库连接
     def __init__(self):
-        file = open("kpi_calc.yaml")
+        file = open("../config/config.yaml")
         config = yaml.load(file)
         file.close()
         self.host = config["host"]
@@ -61,13 +61,3 @@ class MysqldbHelper:
             cur.close()
             con.close()
             
-if __name__ == "__main__":
-    print('=========start')
-	#实例化一个对象
-    db=MysqldbHelper() 
-    #print(db)
-    def get(): 
-        sql="select * from errors"
-        fc=db.select(sql)
-        for row in fc:
-            print (row)

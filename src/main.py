@@ -1,6 +1,6 @@
 
 #!/usr/bin/python
-# -*- coding: UTF-8 -*-
+# coding=UTF-8
 
 from flask import Flask
 from flask_restful import Resource,Api
@@ -17,13 +17,14 @@ api = Api(app)
 #init thread pool
 thread_pool = ThreadPoolManger(4)
 
-def handle_request(_task_id,_type,_model,_start,_end,_kpi):
-    locate = Locate(_task_id,_type,_model,_start,_end,_kpi)
+def handle_request(_task_id,_type,_name,_model,_start,_end,_kpi):
+    locate = Locate(_task_id,_type,_name,_model,_start,_end,_kpi)
     print ('thread %s is running ' % threading.current_thread().name)
-    print(_task_id,_type,_model,_start,_end,_kpi)
+    print(_task_id,_type,_name,_model,_start,_end,_kpi)
+
     locate.getDataFromES()
     locate.groupby_3d()
-    locate.iswift()
+    locate.algorithm()
     locate.insert_to_db()
 
 
@@ -34,6 +35,7 @@ class _restful(Resource):
             parser = reqparse.RequestParser()
             parser.add_argument("task_id",type=str)
             parser.add_argument('type', type=str, help='Email address to create user')
+            parser.add_argument('name', type=str, help='Email address to create user')
             parser.add_argument('model', type=str, help='Password to create user')
             parser.add_argument('start', type=str, help='Password to create user')
             parser.add_argument('end', type=str, help='Password to create user')
@@ -42,16 +44,16 @@ class _restful(Resource):
 
             _task_id = args['task_id']
             _type = args['type']
+            _name = args['name']
             _model = args['model']
             _start = args['start']
             _end = args['end']
             _kpi = args['kpi']
 
-
-            if (_task_id==None or _type==None or _model==None or _start==None or _end==None or _kpi==None):
+            if (_task_id==None or _type==None or _name==None or _model==None or _start==None or _end==None or _kpi==None):
                 return  {"code":200, "success":"false","msg":"缺少参数"}
             else:
-                thread_pool.add_job(handle_request,*(_task_id,_type,_model,_start,_end,_kpi))
+                thread_pool.add_job(handle_request,*(_task_id,_type,_name,_model,_start,_end,_kpi))
                 return  {"code":200, "success":"true","msg":"操作成功"}
         except Exception as e:
             return {'error': str(e)}

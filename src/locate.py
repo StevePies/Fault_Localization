@@ -1,22 +1,26 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
-import es_load 
+
 import pandas as pd
-import itertools,math,sys
-from iswift import iswift 
+import itertools,math,sys,datetime
+from model.iswift import iswift 
+from utils.db_util import MysqldbHelper
+import utils.es_load 
 
 reload(sys)  
 sys.setdefaultencoding('utf8')   
 
 class Locate:
-    def __init__(self, _task_id,_type,_model,_start,_end,_kpi):
+    def __init__(self, _task_id,_type,_name,_model,_start,_end,_kpi):
         self._task_id = _task_id
         self._type = _type
+        self._name = _name
         self._model = _model
         self._start = _start
         self._end = _end
         self._kpi = _kpi
-       
+        self.create_time= datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+        
     def getDataFromES(self):
         self.list = []
         es_data = es_load.search(self._start,self._end,self._kpi)
@@ -101,13 +105,19 @@ class Locate:
         #TODO
         # 根据model字段判断使用什么模型
         ift = iswift(self.d3_tree,self.list)
-        ift.run()
-        
+        self.result = ift.run()
+        self.over_time=datetime.datetime.now().strftime('%Y%m%d%H%M%S')
 
 
     def insert_to_db(self):
-        #TODO
-        i=0
+        db=MysqldbHelper()   
+        desc = "null"
+        state = "null"
+        sql = "insert into rca_task_table (racid,type,model,startTime,endTime,kpi,create_time,over_time,result,desc,state) values ('"+\
+            self._task_id+"','"+self._type+"','"+self._model+"','"+self._start+"','"+self._end+"','"+self._kpi+"','"+self.create_time+"','"+self.over_time+"','"+self.result+"','"+desc+"','"+state+"')"
+        #db.update(sql)
+        print(sql)
+
 
 if __name__ == "__main__":
     locate = Locate(1,1,1,20190610113700,20190610114000,"OUT_FLOW")

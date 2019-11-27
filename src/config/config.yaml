@@ -1,0 +1,4 @@
+host: '10.10.27.130'
+user: 'root'
+passwd: 'hpnl123456'
+database: 'aiops'

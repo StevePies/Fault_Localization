@@ -1,6 +1,5 @@
 #!/usr/bin/python
-# -*- coding: UTF-8 -*-
-
+# coding=utf-8 
 
 import pandas as pd
 import numpy as np
@@ -164,7 +163,7 @@ class iswift:
                 left.append(nums[i])
             else:
                 right.append(nums[i])         
-        return self.quick_sort(left)+[nums[0]]+self.quick_sort(right)
+        return self.quick_sort(left,latent_force)+[nums[0]]+self.quick_sort(right,latent_force)
 
     def run(self):
         latent_force = {}
@@ -262,3 +261,4 @@ class iswift:
         pod_filter_sorted = sorted(pod_filter_dict.items(), key=lambda x: x[1], reverse=True)
         for item in pod_filter_sorted:
             print(item[0],pod_dict[item[0]],item[1])
+        return(pod_filter_sorted)
