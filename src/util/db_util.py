@@ -5,7 +5,7 @@ import yaml
 class MysqldbHelper:
     #获取数据库连接
     def __init__(self):
-        file = open("../config/config.yaml")
+        file = open("config/config.yaml")
         config = yaml.load(file)
         file.close()
         self.host = config["host"]

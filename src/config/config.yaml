@@ -1,4 +1,4 @@
-host: '10.10.27.130'
+host: '39.137.77.247'
 user: 'root'
-passwd: 'hpnl123456'
+passwd: '123456'
 database: 'aiops'

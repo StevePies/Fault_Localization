@@ -24,7 +24,7 @@ class Locate:
         
     def init_database(self):
         self.db=MysqldbHelper()   
-        sql = "insert into rca_task_table (racid,type,name,startTime,endTime,kpi,model,create_time,state) values ('"+\
+        sql = "insert into rca_task_table (racId,type,name,startTime,endTime,kpi,model,create_time,state) values ('"+\
             self._task_id+"','"+self._type+"','"+self._name+"','"+self._start+"','"+self._end+"','"+self._kpi+"','"+self._model+"','"+self.create_time+"','"+str(0)+"')"
         self.db.update(sql)
         print(sql)
@@ -54,7 +54,7 @@ class Locate:
 
         print("get data from es successful!")
 
-        sql = "UPDATE rca_task_table SET state = '1' WHERE racid = '"+self._task_id+"'"
+        sql = "UPDATE rca_task_table SET state = '1' WHERE racId = '"+self._task_id+"'"
         self.db.update(sql)
         print(sql)
        
@@ -112,7 +112,7 @@ class Locate:
         #print(self.list[0])
         #print(self.d3_tree[0])
         print("groupby finished!")
-        sql = "UPDATE rca_task_table SET state = '2' WHERE racid = '"+self._task_id+"'"
+        sql = "UPDATE rca_task_table SET state = '2' WHERE racId = '"+self._task_id+"'"
         self.db.update(sql)
         print(sql)
                     
@@ -120,12 +120,12 @@ class Locate:
         #TODO
         
         ift = iswift(self.d3_tree,self.list)
-        sql = "UPDATE rca_task_table SET state = '3' WHERE racid = '"+self._task_id+"'"
+        sql = "UPDATE rca_task_table SET state = '3' WHERE racId = '"+self._task_id+"'"
         self.db.update(sql)
         print(sql)
         self.result = ift.run()
         self.over_time=datetime.datetime.now().strftime('%Y%m%d%H%M%S')
-        sql = "UPDATE rca_task_table SET state = '9',overTime = '"+self.over_time+"',result = '"+str(self.result)+"' WHERE racid = '"+self._task_id+"'"
+        sql = "UPDATE rca_task_table SET state = '9',overTime = '"+self.over_time+"',result = '"+str(self.result)+"' WHERE racId = '"+self._task_id+"'"
         self.db.update(sql)
         print(sql)
 
