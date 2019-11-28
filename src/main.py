@@ -48,10 +48,10 @@ class _restful(Resource):
             _kpi = args['kpi']
 
             if (_task_id==None or _type==None or _name==None or _model==None or _start==None or _end==None or _kpi==None):
-                return  {"code":200, "success":"false","msg":"缺少参数"}
+                return  {"code":200, "success":"false","msg":"missing parameter"}
             else:
                 thread_pool.add_job(handle_request,*(_task_id,_type,_name,_model,_start,_end,_kpi))
-                return  {"code":200, "success":"true","msg":"操作成功"}
+                return  {"code":200, "success":"true","msg":"success"}
         except Exception as e:
             return {'error': str(e)}
 

@@ -118,7 +118,7 @@ class Locate:
                     
     def algorithm(self):
         #TODO
-        # 根据model字段判断使用什么模型
+        
         ift = iswift(self.d3_tree,self.list)
         sql = "UPDATE rca_task_table SET state = '3' WHERE racid = '"+self._task_id+"'"
         self.db.update(sql)
