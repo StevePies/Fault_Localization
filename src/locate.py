@@ -4,8 +4,8 @@
 import pandas as pd
 import itertools,math,sys,datetime
 from model.iswift import iswift 
-from utils.db_util import MysqldbHelper
-import utils.es_load 
+from util.db_util import MysqldbHelper
+import util.es_load 
 
 reload(sys)  
 sys.setdefaultencoding('utf8')   
@@ -20,10 +20,18 @@ class Locate:
         self._end = _end
         self._kpi = _kpi
         self.create_time= datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+        self.init_database()
         
+    def init_database(self):
+        self.db=MysqldbHelper()   
+        sql = "insert into rca_task_table (racid,type,name,startTime,endTime,kpi,model,create_time,state) values ('"+\
+            self._task_id+"','"+self._type+"','"+self._name+"','"+self._start+"','"+self._end+"','"+self._kpi+"','"+self._model+"','"+self.create_time+"','"+str(0)+"')"
+        self.db.update(sql)
+        print(sql)
+
     def getDataFromES(self):
         self.list = []
-        es_data = es_load.search(self._start,self._end,self._kpi)
+        es_data = util.es_load.search(self._start,self._end,self._kpi)
         for item in es_data:
             temp_list = []
             
@@ -45,6 +53,10 @@ class Locate:
             #print(temp_list)
 
         print("get data from es successful!")
+
+        sql = "UPDATE rca_task_table SET state = '1' WHERE racid = '"+self._task_id+"'"
+        self.db.update(sql)
+        print(sql)
        
     def dimCombination(self,dim_arr,i):
         result = []
@@ -100,27 +112,20 @@ class Locate:
         #print(self.list[0])
         #print(self.d3_tree[0])
         print("groupby finished!")
+        sql = "UPDATE rca_task_table SET state = '2' WHERE racid = '"+self._task_id+"'"
+        self.db.update(sql)
+        print(sql)
                     
     def algorithm(self):
         #TODO
         # 根据model字段判断使用什么模型
         ift = iswift(self.d3_tree,self.list)
+        sql = "UPDATE rca_task_table SET state = '3' WHERE racid = '"+self._task_id+"'"
+        self.db.update(sql)
+        print(sql)
         self.result = ift.run()
         self.over_time=datetime.datetime.now().strftime('%Y%m%d%H%M%S')
-
-
-    def insert_to_db(self):
-        db=MysqldbHelper()   
-        desc = "null"
-        state = "null"
-        sql = "insert into rca_task_table (racid,type,model,startTime,endTime,kpi,create_time,over_time,result,desc,state) values ('"+\
-            self._task_id+"','"+self._type+"','"+self._model+"','"+self._start+"','"+self._end+"','"+self._kpi+"','"+self.create_time+"','"+self.over_time+"','"+self.result+"','"+desc+"','"+state+"')"
-        #db.update(sql)
+        sql = "UPDATE rca_task_table SET state = '9',overTime = '"+self.over_time+"',result = '"+str(self.result)+"' WHERE racid = '"+self._task_id+"'"
+        self.db.update(sql)
         print(sql)
 
-
-if __name__ == "__main__":
-    locate = Locate(1,1,1,20190610113700,20190610114000,"OUT_FLOW")
-    locate.getDataFromES()
-    locate.groupby_3d()
-    locate.algorithm()

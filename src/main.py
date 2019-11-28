@@ -1,11 +1,11 @@
-
+# -*- coding:utf-8 -*- 
 #!/usr/bin/python
-# coding=UTF-8
+# coding=utf-8 
 
 from flask import Flask
 from flask_restful import Resource,Api
 from flask_restful import reqparse
-from thread_pool import ThreadPoolManger
+from util.thread_pool import ThreadPoolManger
 from locate import Locate
 import threading
 
@@ -21,12 +21,9 @@ def handle_request(_task_id,_type,_name,_model,_start,_end,_kpi):
     locate = Locate(_task_id,_type,_name,_model,_start,_end,_kpi)
     print ('thread %s is running ' % threading.current_thread().name)
     print(_task_id,_type,_name,_model,_start,_end,_kpi)
-
     locate.getDataFromES()
     locate.groupby_3d()
     locate.algorithm()
-    locate.insert_to_db()
-
 
 class _restful(Resource):
     def post(self):

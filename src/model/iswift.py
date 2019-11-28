@@ -248,17 +248,34 @@ class iswift:
             pod_dict[rx].append(recom)
 
         pod_filter_dict = {}
-
+        pod_information_dict = {}
         for pod_item in pod_dict:
             pod_dict[pod_item] = self.quick_sort(pod_dict[pod_item],latent_force)
             pod_filter_dict[pod_item] = 0
             sum_t = 0
+            temp_dict = {}
+            temp_lf = []
             for item in pod_dict[pod_item]:
-                print(item,latent_force[item])
                 sum_t = sum_t + latent_force[item]
+                temp_lf.append(latent_force[item])
+
+            temp_dict['latent_force'] = temp_lf
+            temp_dict['sum_latent_force'] = sum_t
+            temp_dict['length'] = len(pod_dict[pod_item])
+
+            pod_information_dict[pod_item]= temp_dict
             pod_filter_dict[pod_item] = 100*(sum_t)-len(pod_dict[pod_item])
 
         pod_filter_sorted = sorted(pod_filter_dict.items(), key=lambda x: x[1], reverse=True)
+        result = []
         for item in pod_filter_sorted:
-            print(item[0],pod_dict[item[0]],item[1])
-        return(pod_filter_sorted)
+            temp = {}
+            temp['pod']  = item[0]
+            temp['score'] = item[1]
+            temp['item'] = pod_dict[item[0]]
+            temp['latent_force'] = pod_information_dict[item[0]]['latent_force']
+            temp['sum_latent_force'] = pod_information_dict[item[0]]['sum_latent_force']
+            temp['length'] = pod_information_dict[item[0]]['length']
+            result.append(temp)
+            #print(item[0],item[1],temp)
+        return(result)
