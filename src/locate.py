@@ -123,7 +123,7 @@ class Locate:
         sql = "UPDATE rca_task_table SET state = '3' WHERE rcaId = '"+self._task_id+"'"
         self.db.update(sql)
         print(sql)
-        rt = ift.run()
+        rt = str(ift.run())
         import MySQLdb
         self.result = MySQLdb.escape_string(rt)
 
