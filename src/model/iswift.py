@@ -255,11 +255,14 @@ class iswift:
             sum_t = 0
             temp_dict = {}
             temp_lf = []
+            temp_conf = []
             for item in pod_dict[pod_item]:
                 sum_t = sum_t + latent_force[item]
                 temp_lf.append(latent_force[item])
+                temp_conf.append(confidence_set[item])
 
             temp_dict['latent_force'] = temp_lf
+            temp_dict['confidence'] = temp_conf
             temp_dict['sum_latent_force'] = sum_t
             temp_dict['length'] = len(pod_dict[pod_item])
 
@@ -268,12 +271,17 @@ class iswift:
 
         pod_filter_sorted = sorted(pod_filter_dict.items(), key=lambda x: x[1], reverse=True)
         result = []
+        j=0
         for item in pod_filter_sorted:
+            if j==3:
+                break
+            j = j  + 1  
             temp = {}
             temp['pod']  = item[0]
             temp['score'] = item[1]
             temp['item'] = pod_dict[item[0]]
             temp['latent_force'] = pod_information_dict[item[0]]['latent_force']
+            temp['confidence'] = pod_information_dict[item[0]]['confidence']
             temp['sum_latent_force'] = pod_information_dict[item[0]]['sum_latent_force']
             temp['length'] = pod_information_dict[item[0]]['length']
             result.append(temp)
