@@ -55,7 +55,7 @@ class _restful(Resource):
         except Exception as e:
             return {'error': str(e)}
 
-api.add_resource(_restful,'/locate')
+api.add_resource(_restful,'/api/rcaService')
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8383, debug=True)
