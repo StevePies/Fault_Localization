@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 import pandas as pd
-import itertools,math,sys,datetime
+import itertools,math,sys,datetime,re
 from model.iswift import iswift 
 from util.db_util import MysqldbHelper
 import util.es_load 
@@ -26,8 +26,10 @@ class Locate:
         self.db=MysqldbHelper()   
         sql = "insert into rca_task_table (rcaId,type,name,startTime,endTime,kpi,model,createtime,state) values ('"+\
             self._task_id+"','"+self._type+"','"+self._name+"','"+self._start+"','"+self._end+"','"+self._kpi+"','"+self._model+"','"+self.create_time+"','"+str(0)+"')"
-        self.db.update(sql)
-        print(sql)
+        regex = re.compile(r'\\(?![/u"])')
+        fixed_sql = regex.sub(r"\\\\", sql)
+        self.db.update(fixed_sql)
+        print(fixed_sql)
 
     def getDataFromES(self):
         self.list = []
@@ -55,8 +57,10 @@ class Locate:
         print("get data from es successful!")
 
         sql = "UPDATE rca_task_table SET state = '1' WHERE rcaId = '"+self._task_id+"'"
-        self.db.update(sql)
-        print(sql)
+        regex = re.compile(r'\\(?![/u"])')
+        fixed_sql = regex.sub(r"\\\\", sql)
+        self.db.update(fixed_sql)
+        print(fixed_sql)
        
     def dimCombination(self,dim_arr,i):
         result = []
@@ -113,19 +117,25 @@ class Locate:
         #print(self.d3_tree[0])
         print("groupby finished!")
         sql = "UPDATE rca_task_table SET state = '2' WHERE rcaId = '"+self._task_id+"'"
-        self.db.update(sql)
-        print(sql)
+        regex = re.compile(r'\\(?![/u"])')
+        fixed_sql = regex.sub(r"\\\\", sql)
+        self.db.update(fixed_sql)
+        print(fixed_sql)
                     
     def algorithm(self):
         #TODO
         
         ift = iswift(self.d3_tree,self.list)
         sql = "UPDATE rca_task_table SET state = '3' WHERE rcaId = '"+self._task_id+"'"
-        self.db.update(sql)
-        print(sql)
+        regex = re.compile(r'\\(?![/u"])')
+        fixed_sql = regex.sub(r"\\\\", sql)
+        self.db.update(fixed_sql)
+        print(fixed_sql)
         self.result = ift.run()
         self.over_time=datetime.datetime.now().strftime('%Y%m%d%H%M%S')
         sql = "UPDATE rca_task_table SET state = '9',overTime = '"+self.over_time+"',result = '"+str(self.result)+"' WHERE rcaId = '"+self._task_id+"'"
-        self.db.update(sql)
-        print(sql)
+        regex = re.compile(r'\\(?![/u"])')
+        fixed_sql = regex.sub(r"\\\\", sql)
+        self.db.update(fixed_sql)
+        print(fixed_sql)
 
