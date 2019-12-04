@@ -3,17 +3,18 @@ import requests
 import json
 
 data={
-	"task_id": "12356",
-	"type": "0",
-	"name":"123",
+	"racId": "12370",
+	"type": "web",
+	"name":"locate",
 	"model": "iswift",
-	"start": "20190610113700",
-	"end": "20190610114000",
-	"kpi": "OUT_FLOW"
+	"startTime": "20190610113700",
+	"endTime": "20190610114000",
+	"kpi": "OUT_FLOW",
+	"remarks":"This is remarks"
 }
 print(data)
 #url="http://127.0.0.1:8383/locate"
-url="http://10.10.27.130:8383/locate"
+url="http://10.10.27.130:8383/api/rcaService"
 data_json = json.dumps(data)
 headers = {'Content-type': 'application/json'}
 response = requests.post(url, data=data_json, headers=headers)

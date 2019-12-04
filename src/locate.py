@@ -11,7 +11,7 @@ reload(sys)
 sys.setdefaultencoding('utf8')   
 
 class Locate:
-    def __init__(self, _task_id,_type,_name,_model,_start,_end,_kpi):
+    def __init__(self, _task_id,_type,_name,_model,_start,_end,_kpi,_remark):
         self._task_id = _task_id
         self._type = _type
         self._name = _name
@@ -19,13 +19,14 @@ class Locate:
         self._start = _start
         self._end = _end
         self._kpi = _kpi
+        self._remark = _remark
         self.create_time= datetime.datetime.now().strftime('%Y%m%d%H%M%S')
         self.init_database()
         
     def init_database(self):
         self.db=MysqldbHelper()   
-        sql = "insert into rca_task_table (rcaId,type,name,startTime,endTime,kpi,model,createtime,state) values ('"+\
-            self._task_id+"','"+self._type+"','"+self._name+"','"+self._start+"','"+self._end+"','"+self._kpi+"','"+self._model+"','"+self.create_time+"','"+str(0)+"')"
+        sql = "insert into rca_task_table (rcaId,type,name,startTime,endTime,kpi,model,createTime,state,remarks) values ('"+\
+            self._task_id+"','"+self._type+"','"+self._name+"','"+self._start+"','"+self._end+"','"+self._kpi+"','"+self._model+"','"+self.create_time+"','"+str(0)+"','"+self._remark+"')"
         self.db.update(sql)
         print(sql)
 
