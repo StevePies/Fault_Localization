@@ -55,6 +55,7 @@ class iswift:
              if(item[-1]==1):
                  self.error_item =  self.error_item +1
         
+        
     #将排过序的集合中前K项组合加入候选集合，并在搜索集合中删除其中元素
     def getCandidateList(self,search_set_sorted):
         i=0
@@ -121,9 +122,13 @@ class iswift:
         local_conf={}
         local_sup={}
         #print("所有的儿子信息：")
+        if(self.error_item==0):
+            return 0,0
 
         for item in result_list:
             ix = str(item[0])+"-"+str(item[1])+"-"+str(item[2])+"-"+str(item[3])+"-"+str(item[4])
+            if((item[self.dims_len+1]+item[self.dims_len]) == 0):
+                continue
             local_sup[ix]=item[self.dims_len+1]/(self.error_item)
             local_conf[ix]=item[self.dims_len+1]/(item[self.dims_len+1]+item[self.dims_len])
             ##print(ix,local_sup[ix],local_conf[ix])
@@ -172,8 +177,11 @@ class iswift:
         recommond_list = []
         search_set = {}
         
-
+        if(self.error_item == 0):
+            return []
         for item in self.start_list:
+            if(item[self.dims_len+1]+item[self.dims_len] == 0):
+                continue
             ix = str(item[0])+"-"+str(item[1])+"-"+str(item[2])+"-"+str(item[3])+"-"+str(item[4])
             latent_force[ix]=item[self.dims_len+1]/(self.error_item)
             confidence_set[ix]=item[self.dims_len+1]/(item[self.dims_len+1]+item[self.dims_len])
@@ -208,7 +216,8 @@ class iswift:
                 if(normal==-1 and abnormal==-1):
                     continue
                 ix = str(item[0])+"-"+str(item[1])+"-"+str(item[2])+"-"+str(item[3])+"-"+str(item[4])
-
+                if(abnormal+normal == 0):
+                    continue
                 latent_force[ix]=abnormal/(self.error_item)
                 confidence_set[ix]=abnormal/(abnormal+normal)
                 sp_set[ix] = self.A*latent_force[ix]+self.B*confidence_set[ix]
