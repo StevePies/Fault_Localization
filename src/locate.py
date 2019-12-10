@@ -36,9 +36,6 @@ class Locate:
         for item in es_data:
             temp_list = []
             
-            #TODO
-            #字段可能为空 需要判断
-            #之后error字段可以直接获取，需要修改
             temp_list.append(item['DOMAIN'])
             temp_list.append(item['province'])            
             temp_list.append(item['user_type'])
@@ -46,10 +43,11 @@ class Locate:
             temp_list.append(item['cdn_srever'])
             #temp_list.append(item['error'])
             temp_list.append(item[self._kpi])
-            if(float(item[self._kpi]) >10000):
+            if(item[self._kpi+'_ERROR'] == -1):
                 temp_list.append(0)
             else:
-                temp_list.append(1)
+                temp_list.append(item[self._kpi+'_ERROR'])
+            #temp_list.append(item['TIMESTAMP'])
             self.list.append(temp_list)
             #print(temp_list)
 
@@ -67,7 +65,7 @@ class Locate:
         return result
  
     def groupby_3d(self):
-        #TODO
+        
         merge_df = pd.DataFrame(self.list,columns=['DOMAIN', 'province', 'user_type', 'os', 'cdn_server','value','error'])
     
         ix =  ['DOMAIN', 'province', 'user_type', 'os', 'cdn_server']

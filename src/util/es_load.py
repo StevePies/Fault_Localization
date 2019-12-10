@@ -26,8 +26,8 @@ def get_result_list(es_result):
         final_result.append(item['_source'])
     return final_result
 
-#TODO edit index
-def get_search_result(es_search_options, scroll='5m', index='iie-aiops-history-xilidu', doc_type='doc', timeout="1m"):
+
+def get_search_result(es_search_options, scroll='5m', index='result-from-module2', doc_type='doc', timeout="1m"):
     es_result = helpers.scan(
         client=es_client,
         query=es_search_options,
@@ -56,7 +56,7 @@ def set_search_optional(start,end,kpi):
     es_search_options['query']["range"]["TIMESTAMP"]["gte"]=int(start)
     es_search_options['query']["range"]["TIMESTAMP"]["lte"]=int(end)
     es_search_options["_source"].append(kpi)
-    #TODO add kpi error index
+    es_search_options["_source"].append(kpi+"_ERROR")
     print(es_search_options)
     return es_search_options
 
