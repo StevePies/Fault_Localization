@@ -3,12 +3,12 @@ import requests
 import json
 
 data={
-	"racId": "12370",
+	"racId": "121111370",
 	"type": "web",
 	"name":"locate",
 	"model": "iswift",
-	"startTime": "20190610113700",
-	"endTime": "20190610114000",
+	"startTime": "20191209084600",
+	"endTime": "20191209085000",
 	"kpi": "OUT_FLOW",
 	"remarks":"This is remarks"
 }

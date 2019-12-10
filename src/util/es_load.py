@@ -51,7 +51,7 @@ def set_search_optional(start,end,kpi):
                                 
                             }
                         },
-                        "_source": ["TIMESTAMP", "DOMAIN", "province", "user_type", "os", "cdn_srever"]
+                        "_source": ["TIMESTAMP", "DOMAIN", "province", "user_type", "os", "cdnserver"]
                     }
     es_search_options['query']["range"]["TIMESTAMP"]["gte"]=int(start)
     es_search_options['query']["range"]["TIMESTAMP"]["lte"]=int(end)

@@ -40,7 +40,7 @@ class Locate:
             temp_list.append(item['province'])            
             temp_list.append(item['user_type'])
             temp_list.append(item['os'])
-            temp_list.append(item['cdn_srever'])
+            temp_list.append(item['cdnserver'])
             #temp_list.append(item['error'])
             temp_list.append(item[self._kpi])
             if(item[self._kpi+'_ERROR'] == -1):
