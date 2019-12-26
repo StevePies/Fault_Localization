@@ -32,30 +32,34 @@ class Locate:
 
     def getDataFromES(self):
         self.list = []
-        es_data = util.es_load.search(self._start,self._end,self._kpi)
-        for item in es_data:
-            temp_list = []
-            
-            temp_list.append(item['DOMAIN'])
-            temp_list.append(item['province'])            
-            temp_list.append(item['user_type'])
-            temp_list.append(item['os'])
-            temp_list.append(item['cdnserver'])
-            #temp_list.append(item['error'])
-            temp_list.append(item[self._kpi])
-            if(item[self._kpi+'_ERROR'] == -1):
-                temp_list.append(0)
-            else:
-                temp_list.append(item[self._kpi+'_ERROR'])
-            #temp_list.append(item['TIMESTAMP'])
-            self.list.append(temp_list)
-            #print(temp_list)
+        try:
+            es_data = util.es_load.search(self._start,self._end,self._kpi)
+        except:
+            sql = "UPDATE rca_task_table SET state = '4' WHERE rcaId = '"+self._task_id+"'"
+            self._remark = self._remark + "——es download data error"
+            self.db.update(sql)
+        else:
+            for item in es_data:
+                temp_list = []
+                
+                temp_list.append(item['DOMAIN'])
+                temp_list.append(item['province'])            
+                temp_list.append(item['user_type'])
+                temp_list.append(item['os'])
+                temp_list.append(item['cdnserver'])
+                temp_list.append(item[self._kpi])
+                if(item[self._kpi+'_ERROR'] == -1):
+                    temp_list.append(0)
+                else:
+                    temp_list.append(item[self._kpi+'_ERROR'])
+                #temp_list.append(item['TIMESTAMP'])
+                self.list.append(temp_list)
 
-        print("get data from es successful!")
+            print("get data from es successful!")
 
-        sql = "UPDATE rca_task_table SET state = '1' WHERE rcaId = '"+self._task_id+"'"
-        self.db.update(sql)
-        print(sql)
+            sql = "UPDATE rca_task_table SET state = '1' WHERE rcaId = '"+self._task_id+"'"
+            self.db.update(sql)
+            print(sql)
        
     def dimCombination(self,dim_arr,i):
         result = []
@@ -65,11 +69,14 @@ class Locate:
         return result
  
     def groupby_3d(self):
-        
+        self.d3_tree = []
+        if(len(self.list) == 0):
+            return
+            
         merge_df = pd.DataFrame(self.list,columns=['DOMAIN', 'province', 'user_type', 'os', 'cdn_server','value','error'])
     
         ix =  ['DOMAIN', 'province', 'user_type', 'os', 'cdn_server']
-        self.d3_tree = []
+        
         for i in range (1,4):
             dim_combin_list = self.dimCombination(ix,i)
             #print(dim_combin_list)
@@ -130,3 +137,4 @@ class Locate:
         self.db.update(sql)
         print(sql)
 
+        
