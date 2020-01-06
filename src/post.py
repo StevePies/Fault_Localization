@@ -9,7 +9,7 @@ data={
 	"model": "iswift",
 	"startTime": "20191225200000",
 	"endTime": "20191225200500",
-	"kpi": "CDN_EX_5XX_PER",
+	"kpi": "OUT_FLOW",
 	"remarks":"This is remarks"
 }
 print(data)
