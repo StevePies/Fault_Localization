@@ -46,7 +46,7 @@ class iswift:
         for item in self.dims_list:
             
             if(self.getListLen(item[0:5]) == 1):
-                print(item[0:5],self.getListLen(item[0:5]))
+                #print(item[0:5],self.getListLen(item[0:5]))
                 self.start_list.append(item)
         
     #计算error_item
@@ -182,10 +182,10 @@ class iswift:
         if(self.error_item == 0):
             print("error_item = 0")
             return []
-        print(self.error_item)
-        print(len(self.start_list))
+        #print(self.error_item)
+        #print(len(self.start_list))
         for item in self.start_list:
-            print(item[self.dims_len+1]+item[self.dims_len] )
+            print(item[self.dims_len+1],item[self.dims_len] )
             if(item[self.dims_len+1]+item[self.dims_len] == 0):
                 continue
             ix = str(item[0])+"-"+str(item[1])+"-"+str(item[2])+"-"+str(item[3])+"-"+str(item[4])
