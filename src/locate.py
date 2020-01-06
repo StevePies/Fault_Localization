@@ -6,6 +6,7 @@ import itertools,math,sys,datetime
 from model.iswift import iswift 
 from util.db_util import MysqldbHelper
 import util.es_load 
+import os, sys
 
 reload(sys)  
 sys.setdefaultencoding('utf8')   
@@ -56,6 +57,13 @@ class Locate:
                 #temp_list.append(item['TIMESTAMP'])
                 self.list.append(temp_list)
 
+ 
+                # 创建的目录
+                path = "log/"+self.rcaId
+                tt = pd.DataFrame(data=self.list)
+                if not os.path.exists(path):
+                    os.makedirs(path)
+                tt.to_csv(path+"/es_dl.csv",encoding="utf-8",index=None,columns=None)
             print("get data from es successful!")
 
             sql = "UPDATE rca_task_table SET state = '1' WHERE rcaId = '"+self._task_id+"'"
@@ -118,6 +126,11 @@ class Locate:
         #print("3d data length:"+str(len(self.d3_tree)))
         #print(self.list[0])
         #print(self.d3_tree[0])
+        path = "log/"+self.rcaId
+        tt = pd.DataFrame(data=self.d3_tree)
+        if not os.path.exists(path):
+            os.makedirs(path)
+        tt.to_csv(path+"/d3_tree.csv",encoding="utf-8",index=None,columns=None)
         print("groupby finished!")
         sql = "UPDATE rca_task_table SET state = '2' WHERE rcaId = '"+self._task_id+"'"
         self.db.update(sql)
