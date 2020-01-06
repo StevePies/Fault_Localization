@@ -5,7 +5,8 @@ import es_client
 from elasticsearch import helpers
 
 ES_SERVERS = [{
-    'host': '39.137.77.252',
+    #'host': '39.137.77.252',
+    'host': '10.10.26.43',
     'port': 9200
 }]
 
@@ -14,14 +15,14 @@ es_client = elasticsearch.Elasticsearch(
 )
 
 def search(start,end,kpi):
-    file = open("config/config.yaml")
-    config = yaml.load(file)
-    file.close()
-    es_ip = config["es_ip"]
-    es_index = config["es_index"]
-    ES_SERVERS[0]['host'] = str(es_ip)
+    #file = open("config/config.yaml")
+    #config = yaml.load(file)
+    #file.close()
+    #es_ip = config["es_ip"]
+    #es_index = config["es_index"]
+    #ES_SERVERS[0]['host'] = str(es_ip)
     es_search_options = set_search_optional(start,end,kpi)
-    es_result = get_search_result(es_search_options,es_index)
+    es_result = get_search_result(es_search_options)
     final_result = get_result_list(es_result)
     return final_result
 
