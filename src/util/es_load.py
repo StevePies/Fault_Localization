@@ -21,7 +21,7 @@ def search(start,end,kpi):
     es_index = config["es_index"]
     ES_SERVERS[0]['host'] = str(es_ip)
     es_search_options = set_search_optional(start,end,kpi)
-    es_result = get_search_result(es_search_options,'5m',es_index,'doc','1m')
+    es_result = get_search_result(es_search_options,es_index)
     final_result = get_result_list(es_result)
     return final_result
 
@@ -33,14 +33,15 @@ def get_result_list(es_result):
     return final_result
 
 
-def get_search_result(es_search_options, scroll='5m', index='result-from-module2', doc_type='doc', timeout="1m"):
+def get_search_result(es_search_options, index='anomaly-result-2019.12.25-test-method'):
+    print(index,ES_SERVERS)
     es_result = helpers.scan(
         client=es_client,
         query=es_search_options,
-        scroll=scroll,
+        scroll='5m',
         index=index,
 #        doc_type=doc_type,
-        timeout=timeout
+        timeout="1m"
     )
     return es_result
 

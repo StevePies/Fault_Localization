@@ -36,6 +36,7 @@ class Locate:
             es_data = util.es_load.search(self._start,self._end,self._kpi)
         except:
             sql = "UPDATE rca_task_table SET state = '4' WHERE rcaId = '"+self._task_id+"'"
+            print("es load error")
             self._remark = self._remark + "——es download data error"
             self.db.update(sql)
         else:
