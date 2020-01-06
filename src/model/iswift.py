@@ -44,18 +44,18 @@ class iswift:
     def getStartList(self):
         self.start_list = []
         for item in self.dims_list:
-            #print(item[0:5],self.getListLen(item[0:5]))
+            print(item[0:5],self.getListLen(item[0:5]))
             if(self.getListLen(item[0:5]) == 1):
                 self.start_list.append(item)
-            
+        
     #计算error_item
     def calcErrorItem(self):
         self.error_item = 0
         for item in self.merge_list:
-            print(int(item[-1]))
+            #print(int(item[-1]))
             if(int(item[-1])==1):
                 self.error_item =  self.error_item +1
-        print(self.error_item)
+        #print(self.error_item)
         
     #将排过序的集合中前K项组合加入候选集合，并在搜索集合中删除其中元素
     def getCandidateList(self,search_set_sorted):
@@ -182,6 +182,7 @@ class iswift:
             print("error_item = 0")
             return []
         print(self.error_item)
+        print(len(self.start_list))
         for item in self.start_list:
             if(item[self.dims_len+1]+item[self.dims_len] == 0):
                 continue
