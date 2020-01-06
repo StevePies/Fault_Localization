@@ -56,19 +56,18 @@ class Locate:
                     temp_list.append(item[self._kpi+'_ERROR'])
                 #temp_list.append(item['TIMESTAMP'])
                 self.list.append(temp_list)
-
- 
-                # 创建的目录
-                path = "log/"+self._task_id
-                tt = pd.DataFrame(data=self.list)
-                if not os.path.exists(path):
-                    os.makedirs(path)
-                tt.to_csv(path+"/es_dl.csv",encoding="utf-8",index=None,columns=None)
             print("get data from es successful!")
 
             sql = "UPDATE rca_task_table SET state = '1' WHERE rcaId = '"+self._task_id+"'"
             self.db.update(sql)
             print(sql)
+
+                # 创建的目录
+        path = "log/"+self._task_id
+        tt = pd.DataFrame(data=self.list)
+        if not os.path.exists(path):
+            os.makedirs(path)
+        tt.to_csv(path+"/es_dl.csv",encoding="utf-8",index=None,columns=None)
        
     def dimCombination(self,dim_arr,i):
         result = []
