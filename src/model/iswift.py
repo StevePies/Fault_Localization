@@ -52,6 +52,7 @@ class iswift:
     def calcErrorItem(self):
         self.error_item = 0
         for item in self.merge_list:
+            print()
              if(item[-1]==1):
                  self.error_item =  self.error_item +1
         
@@ -177,7 +178,8 @@ class iswift:
         recommond_list = []
         search_set = {}
         
-        if(self.error_item == 0):
+        if(str(self.error_item) == 0):
+            print("error_item = 0")
             return []
         for item in self.start_list:
             if(item[self.dims_len+1]+item[self.dims_len] == 0):

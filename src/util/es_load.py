@@ -14,8 +14,14 @@ es_client = elasticsearch.Elasticsearch(
 )
 
 def search(start,end,kpi):
+    file = open("config/config.yaml")
+    config = yaml.load(file)
+    file.close()
+    es_ip = config["es_ip"]
+    es_index = config["es_index"]
+    ES_SERVERS[0]['host'] = str(es_ip)
     es_search_options = set_search_optional(start,end,kpi)
-    es_result = get_search_result(es_search_options)
+    es_result = get_search_result(es_search_options,'5m',es_index,'doc','1m')
     final_result = get_result_list(es_result)
     return final_result
 
