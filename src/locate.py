@@ -59,7 +59,7 @@ class Locate:
 
  
                 # 创建的目录
-                path = "log/"+self.rcaId
+                path = "log/"+self._task_id
                 tt = pd.DataFrame(data=self.list)
                 if not os.path.exists(path):
                     os.makedirs(path)
@@ -126,7 +126,7 @@ class Locate:
         #print("3d data length:"+str(len(self.d3_tree)))
         #print(self.list[0])
         #print(self.d3_tree[0])
-        path = "log/"+self.rcaId
+        path = "log/"+self._task_id
         tt = pd.DataFrame(data=self.d3_tree)
         if not os.path.exists(path):
             os.makedirs(path)
