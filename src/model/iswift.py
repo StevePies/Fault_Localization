@@ -52,9 +52,8 @@ class iswift:
     def calcErrorItem(self):
         self.error_item = 0
         for item in self.merge_list:
-            print()
-             if(item[-1]==1):
-                 self.error_item =  self.error_item +1
+            if(item[-1]==1):
+                self.error_item =  self.error_item +1
         
         
     #将排过序的集合中前K项组合加入候选集合，并在搜索集合中删除其中元素
