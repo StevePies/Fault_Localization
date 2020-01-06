@@ -50,10 +50,10 @@ class Locate:
                 temp_list.append(item['os'])
                 temp_list.append(item['cdnserver'])
                 temp_list.append(item[self._kpi])
-                if(item[self._kpi+'_ERROR'] == -1):
+                if(int(item[self._kpi+'_ERROR']) == -1):
                     temp_list.append(0)
                 else:
-                    temp_list.append(item[self._kpi+'_ERROR'])
+                    temp_list.append(int(item[self._kpi+'_ERROR']))
                 #temp_list.append(item['TIMESTAMP'])
                 self.list.append(temp_list)
             print("get data from es successful!")
