@@ -182,10 +182,8 @@ class iswift:
         if(self.error_item == 0):
             print("error_item = 0")
             return []
-        #print(self.error_item)
-        #print(len(self.start_list))
+
         for item in self.start_list:
-            print(item[self.dims_len+1],item[self.dims_len] )
             if(item[self.dims_len+1]+item[self.dims_len] == 0):
                 continue
             ix = str(item[0])+"-"+str(item[1])+"-"+str(item[2])+"-"+str(item[3])+"-"+str(item[4])
@@ -199,9 +197,8 @@ class iswift:
 
             if(latent_force[ix] < self.cut_threshold):
                 continue
-            print(ix)
             search_set[ix] = sp_set[ix] #第一层用latent_force剪枝之后
-
+            conf_avg = 0 
             if(latent_force[ix] > self.supTHR and confidence_set[ix]> self.conTHR):
                 conf_avg,support_sum = self.subNodeCalc(ix)
 
