@@ -181,6 +181,7 @@ class iswift:
         if(str(self.error_item) == 0):
             print("error_item = 0")
             return []
+        print(self.error_item)
         for item in self.start_list:
             if(item[self.dims_len+1]+item[self.dims_len] == 0):
                 continue
@@ -188,10 +189,14 @@ class iswift:
             latent_force[ix]=item[self.dims_len+1]/(self.error_item)
             confidence_set[ix]=item[self.dims_len+1]/(item[self.dims_len+1]+item[self.dims_len])
             sp_set[ix] = self.A * latent_force[ix]+self.B * confidence_set[ix]
+            print("++++++++++++++++")
+            print(ix)
+            print(latent_force[ix])
+            print(confidence_set[ix])
 
             if(latent_force[ix] < self.cut_threshold):
                 continue
-
+            print(ix)
             search_set[ix] = sp_set[ix] #第一层用latent_force剪枝之后
 
             if(latent_force[ix] > self.supTHR and confidence_set[ix]> self.conTHR):
