@@ -311,7 +311,7 @@ class iswift:
         result = []
         j=0
         for item in pod_filter_sorted:
-            if j==3:
+            if j==10:
                 break
             j = j  + 1  
             temp = {}
