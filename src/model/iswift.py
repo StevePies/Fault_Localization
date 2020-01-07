@@ -196,14 +196,14 @@ class iswift:
             ix = str(item[0])+"-"+str(item[1])+"-"+str(item[2])+"-"+str(item[3])+"-"+str(item[4])
 
             print(ix)
-            print(item[self.dims_len+1])
-            print(self.error_item)
-            print(item[self.dims_len+1]/(self.error_item))
-            print(item[self.dims_len+1]+item[self.dims_len])
-            print(item[self.dims_len+1]/(item[self.dims_len+1]+item[self.dims_len]))
+            #print(item[self.dims_len+1])
+            #print(self.error_item)
+            #print(item[self.dims_len+1]/(self.error_item))
+            #print(item[self.dims_len+1]+item[self.dims_len])
+            #print(item[self.dims_len+1]/(item[self.dims_len+1]+item[self.dims_len]))
 
-            latent_force[ix]=item[self.dims_len+1]/(self.error_item)
-            confidence_set[ix]=item[self.dims_len+1]/(item[self.dims_len+1]+item[self.dims_len])
+            latent_force[ix]=float(item[self.dims_len+1])/float(self.error_item)
+            confidence_set[ix]=float(item[self.dims_len+1])/float(item[self.dims_len+1]+item[self.dims_len])
             sp_set[ix] = self.A * latent_force[ix]+self.B * confidence_set[ix]
 
             print(latent_force[ix])
@@ -239,8 +239,8 @@ class iswift:
                 ix = str(item[0])+"-"+str(item[1])+"-"+str(item[2])+"-"+str(item[3])+"-"+str(item[4])
                 if(abnormal+normal == 0):
                     continue
-                latent_force[ix]=abnormal/(self.error_item)
-                confidence_set[ix]=abnormal/(abnormal+normal)
+                latent_force[ix]=float(abnormal)/float(self.error_item)
+                confidence_set[ix]=float(abnormal)/float(abnormal+normal)
                 sp_set[ix] = self.A*latent_force[ix]+self.B*confidence_set[ix]
                 if("iphone.cmvideo.cn" in ix and 'Android' in ix):
                     print("++++++++++++++++")
