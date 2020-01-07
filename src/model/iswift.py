@@ -102,13 +102,15 @@ class iswift:
         return -1,-1
 
     #推荐集合中儿子的support之和 儿子的平均confidence
-    def subNodeCalc(self,ix):
+    def subNodeCalc(self,ix1):
 
         #print("进入儿子节点")
         conf_avg = 0
         support_sum = 0
-        _list =  ix.split("-")
+        _list =  ix1.split("-")
         result_list = []
+        print("============")
+
         for item in self.dims_list:
             mark=0
             for i in range(0,len(_list)):
@@ -133,7 +135,8 @@ class iswift:
                 continue
             local_sup[ix]=item[self.dims_len+1]/(self.error_item)
             local_conf[ix]=item[self.dims_len+1]/(item[self.dims_len+1]+item[self.dims_len])
-            ##print(ix,local_sup[ix],local_conf[ix])
+            if("iphone.cmvideo.cn" in ix):
+                print(ix,local_sup[ix],local_conf[ix])
             support_sum = support_sum+local_sup[ix]
             conf_avg = conf_avg+local_conf[ix]
         if len(result_list) == 0:
@@ -190,10 +193,10 @@ class iswift:
             latent_force[ix]=item[self.dims_len+1]/(self.error_item)
             confidence_set[ix]=item[self.dims_len+1]/(item[self.dims_len+1]+item[self.dims_len])
             sp_set[ix] = self.A * latent_force[ix]+self.B * confidence_set[ix]
-            print("++++++++++++++++")
-            print(ix)
-            print(latent_force[ix])
-            print(confidence_set[ix])
+            #print("++++++++++++++++")
+            #print(ix)
+            #print(latent_force[ix])
+            #print(confidence_set[ix])
 
             if(latent_force[ix] < self.cut_threshold):
                 continue
@@ -209,12 +212,12 @@ class iswift:
                 else:
                     continue
 
-        print(recommond_list)
+        #print(recommond_list)
           
         search_set_sorted= sorted(search_set.items(), key=lambda item:item[1], reverse=True)
         Candidate_list = self.getCandidateList(search_set_sorted)
         search_set.clear()
-        print(len(Candidate_list))
+        #print(len(Candidate_list))
         for loop in range(0,self.for_num):
             for item in Candidate_list:
                 #calc support confidence_set sp_set
@@ -241,12 +244,12 @@ class iswift:
                     else:
                         continue
             #print("第"+str(aaa+2)+"层："+str(len(search_set)))
-            print(str(loop+2)+" 层的search_set大小：" + str(len(search_set)))
+            #print(str(loop+2)+" 层的search_set大小：" + str(len(search_set)))
             search_set_sorted= sorted(search_set.items(), key=lambda item:item[1], reverse=True)
             Candidate_list = self.getCandidateList(search_set_sorted)
             search_set.clear()
 
-        print(recommond_list)
+        #print(recommond_list)
         pod_dict = {}
         for recom in recommond_list:
             recom_list = recom.split("-")
