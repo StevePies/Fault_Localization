@@ -136,7 +136,7 @@ class iswift:
                 continue
             local_sup[ix]=item[self.dims_len+1]/(self.error_item)
             local_conf[ix]=item[self.dims_len+1]/(item[self.dims_len+1]+item[self.dims_len])
-            if("iphone.cmvideo.cn" in ix):
+            if("iphone.cmvideo.cn" in ix and 'Android' in ix):
                 print(ix,local_sup[ix],local_conf[ix])
             support_sum = support_sum+local_sup[ix]
             m = abs(local_conf[ix] - ix1_conf)
@@ -255,7 +255,7 @@ class iswift:
             Candidate_list = self.getCandidateList(search_set_sorted)
             search_set.clear()
 
-        #print(recommond_list)
+        print(recommond_list)
         pod_dict = {}
         for recom in recommond_list:
             recom_list = recom.split("-")

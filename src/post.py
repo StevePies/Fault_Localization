@@ -3,7 +3,7 @@ import requests
 import json
 
 data={
-	"racId": "0000011",
+	"racId": "0000012",
 	"type": "item",
 	"name":"1.25",
 	"model": "iswift",
