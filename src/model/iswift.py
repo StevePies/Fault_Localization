@@ -198,17 +198,16 @@ class iswift:
             if(latent_force[ix] < self.cut_threshold):
                 continue
             search_set[ix] = sp_set[ix] #第一层用latent_force剪枝之后
-            conf_avg = 0 
             if(latent_force[ix] > self.supTHR and confidence_set[ix]> self.conTHR):
                 conf_avg,support_sum = self.subNodeCalc(ix)
 
-            #print(ix,latent_force[ix],confidence_set[ix],conf_avg,support_sum)
+                #print(ix,latent_force[ix],confidence_set[ix],conf_avg,support_sum)
 
-            if (abs(confidence_set[ix] - conf_avg) < self.con_combine_thr):
-                recommond_list.append(ix)
-                self.removeChildfromList(ix)
-            else:
-                continue
+                if (abs(confidence_set[ix] - conf_avg) < self.con_combine_thr):
+                    recommond_list.append(ix)
+                    self.removeChildfromList(ix)
+                else:
+                    continue
 
         print(recommond_list)
           
