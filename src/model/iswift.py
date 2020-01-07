@@ -189,6 +189,7 @@ class iswift:
             return []
 
         for item in self.start_list:
+            print(item)
             if(item[self.dims_len+1]+item[self.dims_len] == 0):
                 continue
             ix = str(item[0])+"-"+str(item[1])+"-"+str(item[2])+"-"+str(item[3])+"-"+str(item[4])
