@@ -211,11 +211,12 @@ class iswift:
                 #if (abs(confidence_set[ix] - conf_avg) < self.con_combine_thr):
                 if (conf_avg < self.con_combine_thr):
                     recommond_list.append(ix)
+                    
                     self.removeChildfromList(ix)
                 else:
                     continue
 
-        #print(recommond_list)
+        print(recommond_list)
           
         search_set_sorted= sorted(search_set.items(), key=lambda item:item[1], reverse=True)
         Candidate_list = self.getCandidateList(search_set_sorted)
@@ -240,7 +241,8 @@ class iswift:
             
                 if(latent_force[ix] > self.supTHR and confidence_set[ix]> self.conTHR):
                     conf_avg,support_sum = self.subNodeCalc(ix,confidence_set[ix])
-                    #print(ix, latent_force[ix], confidence_set[ix], conf_avg, support_sum)
+                    
+                    print(ix, latent_force[ix], confidence_set[ix], conf_avg, support_sum)
                     
                     #if (abs(confidence_set[ix] - conf_avg) < self.con_combine_thr):
                     if (conf_avg < self.con_combine_thr):
