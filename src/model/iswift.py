@@ -195,7 +195,7 @@ class iswift:
             latent_force[ix]=item[self.dims_len+1]/(self.error_item)
             confidence_set[ix]=item[self.dims_len+1]/(item[self.dims_len+1]+item[self.dims_len])
             sp_set[ix] = self.A * latent_force[ix]+self.B * confidence_set[ix]
-
+            print(ix,latent_force[ix],confidence_set[ix])
             if(latent_force[ix] < self.cut_threshold):
                 continue
             search_set[ix] = sp_set[ix] #第一层用latent_force剪枝之后
@@ -234,7 +234,7 @@ class iswift:
                     print("++++++++++++++++")
                     print(ix,latent_force[ix],confidence_set[ix])
                     print("++++++++++++++++")
-                    
+
                 if(latent_force[ix]< self.cut_threshold):
                     continue
                 search_set[ix]=sp_set[ix]
@@ -242,7 +242,7 @@ class iswift:
                 if(latent_force[ix] > self.supTHR and confidence_set[ix]> self.conTHR):
                     conf_avg,support_sum = self.subNodeCalc(ix,confidence_set[ix])
                     
-                    print(ix, latent_force[ix], confidence_set[ix], conf_avg, support_sum)
+                    #print(ix, latent_force[ix], confidence_set[ix], conf_avg, support_sum)
                     
                     #if (abs(confidence_set[ix] - conf_avg) < self.con_combine_thr):
                     if (conf_avg < self.con_combine_thr):
