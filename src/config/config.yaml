@@ -1,6 +1,6 @@
-host: '39.137.77.247'
+host: '10.10.27.130'
 user: 'root'
-passwd: '123456'
+passwd: 'hpnl123456'
 database: 'aiops'
 
 
