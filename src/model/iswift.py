@@ -7,6 +7,7 @@ import yaml
 import itertools
 import csv
 import datetime
+import math 
 
 
 class iswift:
@@ -102,7 +103,7 @@ class iswift:
         return -1,-1
 
     #推荐集合中儿子的support之和 儿子的平均confidence
-    def subNodeCalc(self,ix1):
+    def subNodeCalc(self,ix1,ix1_conf):
 
         #print("进入儿子节点")
         conf_avg = 0
@@ -138,7 +139,8 @@ class iswift:
             if("iphone.cmvideo.cn" in ix):
                 print(ix,local_sup[ix],local_conf[ix])
             support_sum = support_sum+local_sup[ix]
-            conf_avg = conf_avg+local_conf[ix]
+            m = abs(local_conf[ix] - ix1_conf)
+            conf_avg = conf_avg+m
         if len(result_list) == 0:
             return 0,0
         else:
@@ -202,11 +204,12 @@ class iswift:
                 continue
             search_set[ix] = sp_set[ix] #第一层用latent_force剪枝之后
             if(latent_force[ix] > self.supTHR and confidence_set[ix]> self.conTHR):
-                conf_avg,support_sum = self.subNodeCalc(ix)
+                conf_avg,support_sum = self.subNodeCalc(ix,confidence_set[ix])
 
                 #print(ix,latent_force[ix],confidence_set[ix],conf_avg,support_sum)
 
-                if (abs(confidence_set[ix] - conf_avg) < self.con_combine_thr):
+                #if (abs(confidence_set[ix] - conf_avg) < self.con_combine_thr):
+                if (conf_avg < self.con_combine_thr):
                     recommond_list.append(ix)
                     self.removeChildfromList(ix)
                 else:
@@ -236,13 +239,16 @@ class iswift:
                 search_set[ix]=sp_set[ix]
             
                 if(latent_force[ix] > self.supTHR and confidence_set[ix]> self.conTHR):
-                    conf_avg,support_sum = self.subNodeCalc(ix)
+                    conf_avg,support_sum = self.subNodeCalc(ix,confidence_set[ix])
                     #print(ix, latent_force[ix], confidence_set[ix], conf_avg, support_sum)
-                    if (abs(confidence_set[ix] - conf_avg) < self.con_combine_thr):
+                    
+                    #if (abs(confidence_set[ix] - conf_avg) < self.con_combine_thr):
+                    if (conf_avg < self.con_combine_thr):
                         recommond_list.append(ix)
                         self.removeChildfromList(ix)
                     else:
                         continue
+
             #print("第"+str(aaa+2)+"层："+str(len(search_set)))
             #print(str(loop+2)+" 层的search_set大小：" + str(len(search_set)))
             search_set_sorted= sorted(search_set.items(), key=lambda item:item[1], reverse=True)

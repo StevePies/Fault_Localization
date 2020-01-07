@@ -5,7 +5,7 @@ import json
 data={
 	"racId": "0000011",
 	"type": "item",
-	"name":"12.25",
+	"name":"1.25",
 	"model": "iswift",
 	"startTime": "20191225180000",
 	"endTime": "20191225180500",
