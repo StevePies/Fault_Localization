@@ -189,12 +189,12 @@ class iswift:
             return []
 
         for item in self.start_list:
-            print(item)
+            print(item,item[self.dims_len+1],item[self.dims_len])
             if(item[self.dims_len+1]+item[self.dims_len] == 0):
                 continue
             ix = str(item[0])+"-"+str(item[1])+"-"+str(item[2])+"-"+str(item[3])+"-"+str(item[4])
-            latent_force[ix]=item[self.dims_len+1]/(self.error_item)
-            confidence_set[ix]=item[self.dims_len+1]/(item[self.dims_len+1]+item[self.dims_len])
+            latent_force[ix]=int(item[self.dims_len+1])/int(self.error_item)
+            confidence_set[ix]=int(item[self.dims_len+1])/int(item[self.dims_len+1]+item[self.dims_len])
             sp_set[ix] = self.A * latent_force[ix]+self.B * confidence_set[ix]
             print(ix,latent_force[ix],confidence_set[ix])
             if(latent_force[ix] < self.cut_threshold):
