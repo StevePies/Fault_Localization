@@ -192,6 +192,9 @@ class iswift:
 
             if(item[self.dims_len+1]+item[self.dims_len] == 0):
                 continue
+
+            ix = str(item[0])+"-"+str(item[1])+"-"+str(item[2])+"-"+str(item[3])+"-"+str(item[4])
+
             print(ix)
             print(item[self.dims_len+1])
             print(self.error_item)
@@ -199,8 +202,6 @@ class iswift:
             print(item[self.dims_len+1]+item[self.dims_len])
             print(item[self.dims_len+1]/(item[self.dims_len+1]+item[self.dims_len]))
 
-
-            ix = str(item[0])+"-"+str(item[1])+"-"+str(item[2])+"-"+str(item[3])+"-"+str(item[4])
             latent_force[ix]=item[self.dims_len+1]/(self.error_item)
             confidence_set[ix]=item[self.dims_len+1]/(item[self.dims_len+1]+item[self.dims_len])
             sp_set[ix] = self.A * latent_force[ix]+self.B * confidence_set[ix]
