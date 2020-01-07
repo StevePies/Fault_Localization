@@ -195,10 +195,6 @@ class iswift:
             latent_force[ix]=item[self.dims_len+1]/(self.error_item)
             confidence_set[ix]=item[self.dims_len+1]/(item[self.dims_len+1]+item[self.dims_len])
             sp_set[ix] = self.A * latent_force[ix]+self.B * confidence_set[ix]
-            #print("++++++++++++++++")
-            #print(ix)
-            #print(latent_force[ix])
-            #print(confidence_set[ix])
 
             if(latent_force[ix] < self.cut_threshold):
                 continue
@@ -216,7 +212,7 @@ class iswift:
                 else:
                     continue
 
-        print(recommond_list)
+        print(search_set)
           
         search_set_sorted= sorted(search_set.items(), key=lambda item:item[1], reverse=True)
         Candidate_list = self.getCandidateList(search_set_sorted)
@@ -234,7 +230,11 @@ class iswift:
                 latent_force[ix]=abnormal/(self.error_item)
                 confidence_set[ix]=abnormal/(abnormal+normal)
                 sp_set[ix] = self.A*latent_force[ix]+self.B*confidence_set[ix]
-
+                if("iphone.cmvideo.cn" in ix and 'Android' in ix):
+                    print("++++++++++++++++")
+                    print(ix,latent_force[ix],confidence_set[ix])
+                    print("++++++++++++++++")
+                    
                 if(latent_force[ix]< self.cut_threshold):
                     continue
                 search_set[ix]=sp_set[ix]
