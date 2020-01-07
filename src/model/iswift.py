@@ -110,7 +110,7 @@ class iswift:
         support_sum = 0
         _list =  ix1.split("-")
         result_list = []
-        print("============")
+        #print("============")
 
         for item in self.dims_list:
             mark=0
@@ -136,8 +136,8 @@ class iswift:
                 continue
             local_sup[ix]=item[self.dims_len+1]/(self.error_item)
             local_conf[ix]=item[self.dims_len+1]/(item[self.dims_len+1]+item[self.dims_len])
-            if("iphone.cmvideo.cn" in ix and 'Android' in ix):
-                print(ix,local_sup[ix],local_conf[ix])
+            #if("iphone.cmvideo.cn" in ix and 'Android' in ix):
+            #    print(ix,local_sup[ix],local_conf[ix])
             support_sum = support_sum+local_sup[ix]
             m = abs(local_conf[ix] - ix1_conf)
             conf_avg = conf_avg+m
