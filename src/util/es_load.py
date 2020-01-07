@@ -34,7 +34,7 @@ def get_result_list(es_result):
     return final_result
 
 
-def get_search_result(es_search_options, index='anomaly-result-2019.12.25'):
+def get_search_result(es_search_options, index='anomaly-result-2019.12.25-final'):
     print(index,ES_SERVERS)
     es_result = helpers.scan(
         client=es_client,
