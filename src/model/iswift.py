@@ -136,8 +136,8 @@ class iswift:
                 continue
             local_sup[ix]=item[self.dims_len+1]/(self.error_item)
             local_conf[ix]=item[self.dims_len+1]/(item[self.dims_len+1]+item[self.dims_len])
-            if("iphone.cmvideo.cn" in ix and 'Android' in ix):
-                print(ix,local_sup[ix],local_conf[ix])
+            #if("iphone.cmvideo.cn" in ix and 'Android' in ix):
+                #print(ix,local_sup[ix],local_conf[ix])
             support_sum = support_sum+local_sup[ix]
             m = abs(local_conf[ix] - ix1_conf)
             conf_avg = conf_avg+m
@@ -195,7 +195,7 @@ class iswift:
 
             ix = str(item[0])+"-"+str(item[1])+"-"+str(item[2])+"-"+str(item[3])+"-"+str(item[4])
 
-            print(ix)
+            #print(ix)
             #print(item[self.dims_len+1])
             #print(self.error_item)
             #print(item[self.dims_len+1]/(self.error_item))
@@ -206,8 +206,8 @@ class iswift:
             confidence_set[ix]=float(item[self.dims_len+1])/float(item[self.dims_len+1]+item[self.dims_len])
             sp_set[ix] = self.A * latent_force[ix]+self.B * confidence_set[ix]
 
-            print(latent_force[ix])
-            print(confidence_set[ix])
+            #print(latent_force[ix])
+            #print(confidence_set[ix])
             if(latent_force[ix] < self.cut_threshold):
                 continue
             search_set[ix] = sp_set[ix] #第一层用latent_force剪枝之后
@@ -224,7 +224,7 @@ class iswift:
                 else:
                     continue
 
-        print(search_set)
+        #print(search_set)
           
         search_set_sorted= sorted(search_set.items(), key=lambda item:item[1], reverse=True)
         Candidate_list = self.getCandidateList(search_set_sorted)
@@ -242,10 +242,10 @@ class iswift:
                 latent_force[ix]=float(abnormal)/float(self.error_item)
                 confidence_set[ix]=float(abnormal)/float(abnormal+normal)
                 sp_set[ix] = self.A*latent_force[ix]+self.B*confidence_set[ix]
-                if("iphone.cmvideo.cn" in ix and 'Android' in ix):
-                    print("++++++++++++++++")
-                    print(ix,latent_force[ix],confidence_set[ix])
-                    print("++++++++++++++++")
+                #if("iphone.cmvideo.cn" in ix and 'Android' in ix):
+                ##    print("++++++++++++++++")
+                #    print(ix,latent_force[ix],confidence_set[ix])
+                #    print("++++++++++++++++")
 
                 if(latent_force[ix]< self.cut_threshold):
                     continue
@@ -269,7 +269,7 @@ class iswift:
             Candidate_list = self.getCandidateList(search_set_sorted)
             search_set.clear()
 
-        print(recommond_list)
+        #print(recommond_list)
         pod_dict = {}
         for recom in recommond_list:
             recom_list = recom.split("-")
