@@ -3,7 +3,7 @@ import requests
 import json
 
 data={
-	"racId": "0000030",
+	"racId": "0000032",
 	"type": "item",
 	"name":"12.25",
 	"model": "iswift",
@@ -12,7 +12,7 @@ data={
 	#"kpi": "CDN_EX_5XX_PER",
 	#"kpi": "OUT_FLOW",
 	#"kpi": "CDN_TTFB",
-	"kpi": "OUT_RATE",	
+	"kpi": "CDN_OUT_RATE",	
 	"remarks":"This is remarks"
 }
 print(data)

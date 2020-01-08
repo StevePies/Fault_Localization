@@ -5,8 +5,8 @@ import es_client
 from elasticsearch import helpers
 
 ES_SERVERS = [{
-    #'host': '39.137.77.252',
-    'host': '10.10.26.43',
+    'host': '39.137.77.252',
+    #'host': '10.10.26.43',
     'port': 9200
 }]
 
@@ -21,8 +21,11 @@ def search(start,end,kpi):
     #es_ip = config["es_ip"]
     #es_index = config["es_index"]
     #ES_SERVERS[0]['host'] = str(es_ip)
+    
+    #es_index = "anomaly-result-2019.12.25-final"
+    es_index = "anomaly-result-new"
     es_search_options = set_search_optional(start,end,kpi)
-    es_result = get_search_result(es_search_options)
+    es_result = get_search_result(es_search_options,index = es_index)
     final_result = get_result_list(es_result)
     return final_result
 
@@ -34,7 +37,7 @@ def get_result_list(es_result):
     return final_result
 
 
-def get_search_result(es_search_options, index='anomaly-result-2019.12.25-final'):
+def get_search_result(es_search_options, index='anomaly-result'):
     print(index,ES_SERVERS)
     es_result = helpers.scan(
         client=es_client,
