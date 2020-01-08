@@ -305,7 +305,8 @@ class iswift:
             temp_dict['length'] = len(pod_dict[pod_item])
 
             pod_information_dict[pod_item]= temp_dict
-            pod_filter_dict[pod_item] = 100*(sum_t)-len(pod_dict[pod_item])
+            #pod_filter_dict[pod_item] = 100*(sum_t)-len(pod_dict[pod_item])
+            pod_filter_dict[pod_item] = (sum_t)/len(pod_dict[pod_item])
 
         pod_filter_sorted = sorted(pod_filter_dict.items(), key=lambda x: x[1], reverse=True)
         result = []
