@@ -15,11 +15,13 @@ es_client = elasticsearch.Elasticsearch(
 )
 
 def search(start,end,kpi):
-    #file = open("config/config.yaml")
-    #config = yaml.load(file)
-    #file.close()
-    #es_ip = config["es_ip"]
-    #es_index = config["es_index"]
+    file = open("config/config.yaml")
+    config = yaml.load(file)
+    file.close()
+    env = config["currentEnv"]
+
+    es_ip = config[env]["es_ip"]
+    es_index = config[env]["es_index"]
     #ES_SERVERS[0]['host'] = str(es_ip)
     
     #es_index = "anomaly-result-2019.12.25-final"

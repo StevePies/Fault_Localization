@@ -8,10 +8,12 @@ class MysqldbHelper:
         file = open("config/config.yaml")
         config = yaml.load(file)
         file.close()
-        self.host = config["host"]
-        self.user = config["user"]
-        self.passwd = config["passwd"]
-        self.db = config["database"]
+        env = config["currentEnv"]
+
+        self.host = config[env]["mysql_host"]
+        self.user = config[env]["mysql_user"]
+        self.passwd = config[env]["mysql_passwd"]
+        self.db = config[env]["mysql_database"]
     def getCon(self):
         try:
             conn=MySQLdb.connect(host=self.host,user=self.user,passwd=self.passwd,db=self.db,port=3306,charset='utf8')

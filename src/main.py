@@ -8,6 +8,16 @@ from flask_restful import reqparse
 from util.thread_pool import ThreadPoolManger
 from locate import Locate
 import threading
+import yaml
+
+file = open("config/config.yaml")
+config = yaml.load(file)
+file.close()
+
+_host = config["flask"]['host']
+_port = config["flask"]['port']
+_api = config["flask"]['api']
+_thread_num = config["thread"]['thread_num']
 
 
 #init restful api
@@ -15,7 +25,7 @@ app = Flask(__name__)
 api = Api(app)
 
 #init thread pool
-thread_pool = ThreadPoolManger(4)
+thread_pool = ThreadPoolManger(_thread_num)
 
 def handle_request(_rac_id,_type,_name,_model,_start,_end,_kpi,_remarks):
     locate = Locate(_rac_id,_type,_name,_model,_start,_end,_kpi,_remarks)
@@ -57,7 +67,7 @@ class _restful(Resource):
         except Exception as e:
             return {'error': str(e)}
 
-api.add_resource(_restful,'/api/rcaService')
+api.add_resource(_restful,_api)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8383, debug=True)
+    app.run(host=_host, port=_port, debug=True)

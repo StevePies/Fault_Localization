@@ -8,7 +8,7 @@ import itertools
 import csv
 import datetime
 import math 
-
+import json
 
 class iswift:
     def __init__(self,dims_list,merge_list):
@@ -20,6 +20,7 @@ class iswift:
         self.calcErrorItem()
 
     def init_from_config(self):
+
         self.dims_len = 5
         self.A = 0.1
         self.B = 1
@@ -183,7 +184,7 @@ class iswift:
         sp_set = {}
         recommond_list = []
         search_set = {}
-        
+        confidence_loss = {}
         if(self.error_item == 0):
             print("error_item = 0")
             return []
@@ -213,7 +214,7 @@ class iswift:
             search_set[ix] = sp_set[ix] #第一层用latent_force剪枝之后
             if(latent_force[ix] > self.supTHR and confidence_set[ix]> self.conTHR):
                 conf_avg,support_sum = self.subNodeCalc(ix,confidence_set[ix])
-
+                confidence_loss[ix] = conf_avg
                 #print(ix,latent_force[ix],confidence_set[ix],conf_avg,support_sum)
 
                 #if (abs(confidence_set[ix] - conf_avg) < self.con_combine_thr):
@@ -253,7 +254,7 @@ class iswift:
             
                 if(latent_force[ix] > self.supTHR and confidence_set[ix]> self.conTHR):
                     conf_avg,support_sum = self.subNodeCalc(ix,confidence_set[ix])
-                    
+                    confidence_loss[ix] = conf_avg                    
                     #print(ix, latent_force[ix], confidence_set[ix], conf_avg, support_sum)
                     
                     #if (abs(confidence_set[ix] - conf_avg) < self.con_combine_thr):
@@ -311,18 +312,35 @@ class iswift:
         pod_filter_sorted = sorted(pod_filter_dict.items(), key=lambda x: x[1], reverse=True)
         result = []
         j=0
+    
+
+                    temp['item'] = pod_dict[item[0]]
+            temp['latent_force'] = pod_information_dict[item[0]]['latent_force']
+            temp['confidence'] = pod_information_dict[item[0]]['confidence']
+        item_dict = {}
+        for pod in pod_dict:
+            rs = []
+            for m in pod_dict[pod]:
+                tp_list = []
+                tp_list.append(m)
+                tp_list.append(latent_force[m])
+                tp_list.append(confidence[m])
+                tp_list.append(confidence_loss[m])
+                re.append(tp_list)
+            item_dict[pod] = rs
+                
         for item in pod_filter_sorted:
-            if j==10:
+            if j==5:
                 break
             j = j  + 1  
             temp = {}
             temp['pod']  = item[0]
             temp['score'] = item[1]
-            temp['item'] = pod_dict[item[0]]
-            temp['latent_force'] = pod_information_dict[item[0]]['latent_force']
-            temp['confidence'] = pod_information_dict[item[0]]['confidence']
+            temp['item'] = item_dict[item[0]]
             temp['sum_latent_force'] = pod_information_dict[item[0]]['sum_latent_force']
             temp['length'] = pod_information_dict[item[0]]['length']
             result.append(temp)
             #print(item[0],item[1],temp)
+
+        result = json.dumps(result)
         return(result)
