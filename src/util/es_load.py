@@ -6,8 +6,8 @@ from elasticsearch import helpers
 import yaml 
 
 ES_SERVERS = [{
-    'host': '39.137.77.252',
-    #'host': '10.10.26.43',
+    #'host': '39.137.77.252',
+    'host': '10.10.26.43',
     'port': 9200
 }]
 
