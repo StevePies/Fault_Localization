@@ -313,10 +313,6 @@ class iswift:
         result = []
         j=0
     
-
-                    temp['item'] = pod_dict[item[0]]
-            temp['latent_force'] = pod_information_dict[item[0]]['latent_force']
-            temp['confidence'] = pod_information_dict[item[0]]['confidence']
         item_dict = {}
         for pod in pod_dict:
             rs = []
