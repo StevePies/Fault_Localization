@@ -1,7 +1,7 @@
 #PlatformDev：shandong
 #PlatformTest: beijing
 
-currentEnv: 'PlatformTest'
+currentEnv: PlatformTest
 
 thread:
     thread_num : 4

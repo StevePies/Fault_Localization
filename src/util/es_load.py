@@ -20,8 +20,8 @@ def search(start,end,kpi):
     file.close()
     env = config["currentEnv"]
 
-    es_ip = config[env]["es_ip"]
-    es_index = config[env]["es_index"]
+    es_ip = config["env"][env]["es_ip"]
+    es_index = config["env"][env]["es_index"]
     #ES_SERVERS[0]['host'] = str(es_ip)
     
     #es_index = "anomaly-result-2019.12.25-final"

@@ -10,10 +10,11 @@ class MysqldbHelper:
         file.close()
         env = config["currentEnv"]
 
-        self.host = config[env]["mysql_host"]
-        self.user = config[env]["mysql_user"]
-        self.passwd = config[env]["mysql_passwd"]
-        self.db = config[env]["mysql_database"]
+
+        self.host = config["env"][env]["mysql_host"]
+        self.user = config["env"][env]["mysql_user"]
+        self.passwd = config["env"][env]["mysql_passwd"]
+        self.db = config["env"][env]["mysql_database"]
     def getCon(self):
         try:
             conn=MySQLdb.connect(host=self.host,user=self.user,passwd=self.passwd,db=self.db,port=3306,charset='utf8')
