@@ -320,7 +320,7 @@ class iswift:
                 tp_list = []
                 tp_list.append(m)
                 tp_list.append(latent_force[m])
-                tp_list.append(confidence[m])
+                tp_list.append(confidence_set[m])
                 tp_list.append(confidence_loss[m])
                 re.append(tp_list)
             item_dict[pod] = rs
