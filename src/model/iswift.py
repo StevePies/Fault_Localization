@@ -133,7 +133,7 @@ class iswift:
 
         for item in result_list:
             ix = str(item[0])+"-"+str(item[1])+"-"+str(item[2])+"-"+str(item[3])+"-"+str(item[4])
-            if((float(item[self.dims_len+1])+float(item[self.dims_len]))) == 0):
+            if((item[self.dims_len+1]+item[self.dims_len]) == 0):
                 continue
             local_sup[ix]=float(item[self.dims_len+1])/float(self.error_item)
             local_conf[ix]=float(item[self.dims_len+1])/float(item[self.dims_len+1]+item[self.dims_len])
