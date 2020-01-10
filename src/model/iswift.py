@@ -196,13 +196,6 @@ class iswift:
 
             ix = str(item[0])+"-"+str(item[1])+"-"+str(item[2])+"-"+str(item[3])+"-"+str(item[4])
 
-            #print(ix)
-            #print(item[self.dims_len+1])
-            #print(self.error_item)
-            #print(item[self.dims_len+1]/(self.error_item))
-            #print(item[self.dims_len+1]+item[self.dims_len])
-            #print(item[self.dims_len+1]/(item[self.dims_len+1]+item[self.dims_len]))
-
             latent_force[ix]=float(item[self.dims_len+1])/float(self.error_item)
             confidence_set[ix]=float(item[self.dims_len+1])/float(item[self.dims_len+1]+item[self.dims_len])
             sp_set[ix] = self.A * latent_force[ix]+self.B * confidence_set[ix]
@@ -215,7 +208,9 @@ class iswift:
             if(latent_force[ix] > self.supTHR and confidence_set[ix]> self.conTHR):
                 conf_avg,support_sum = self.subNodeCalc(ix,confidence_set[ix])
                 confidence_loss[ix] = conf_avg
-                #print(ix,latent_force[ix],confidence_set[ix],conf_avg,support_sum)
+                            
+                if("hlsmgsplive.miguvideo.com" in ix):
+                    print(ix,latent_force[ix],confidence_set[ix],conf_avg)
 
                 #if (abs(confidence_set[ix] - conf_avg) < self.con_combine_thr):
                 if (conf_avg < self.con_combine_thr):
@@ -256,7 +251,8 @@ class iswift:
                     conf_avg,support_sum = self.subNodeCalc(ix,confidence_set[ix])
                     confidence_loss[ix] = conf_avg                    
                     #print(ix, latent_force[ix], confidence_set[ix], conf_avg, support_sum)
-                    
+                    if("hlsmgsplive.miguvideo.com" in ix):
+                        print(ix,latent_force[ix],confidence_set[ix],conf_avg)
                     #if (abs(confidence_set[ix] - conf_avg) < self.con_combine_thr):
                     if (conf_avg < self.con_combine_thr):
                         recommond_list.append(ix)
