@@ -133,10 +133,10 @@ class iswift:
 
         for item in result_list:
             ix = str(item[0])+"-"+str(item[1])+"-"+str(item[2])+"-"+str(item[3])+"-"+str(item[4])
-            if((item[self.dims_len+1]+item[self.dims_len]) == 0):
+            if((float(item[self.dims_len+1])+float(item[self.dims_len]))) == 0):
                 continue
-            local_sup[ix]=item[self.dims_len+1]/(self.error_item)
-            local_conf[ix]=item[self.dims_len+1]/(item[self.dims_len+1]+item[self.dims_len])
+            local_sup[ix]=float(item[self.dims_len+1])/float(self.error_item)
+            local_conf[ix]=float(item[self.dims_len+1])/float(item[self.dims_len+1]+item[self.dims_len])
             #if("iphone.cmvideo.cn" in ix and 'Android' in ix):
                 #print(ix,local_sup[ix],local_conf[ix])
             support_sum = support_sum+local_sup[ix]
@@ -145,7 +145,7 @@ class iswift:
         if len(result_list) == 0:
             return 0,0
         else:
-            return conf_avg/len(result_list),support_sum
+            return float(conf_avg)/len(result_list),support_sum
     
     def removeChildfromList(self,ix):
         _list =  ix.split("-")
