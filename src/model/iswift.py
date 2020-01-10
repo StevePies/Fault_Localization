@@ -27,7 +27,7 @@ class iswift:
         self.cut_threshold = 0.001
         self.supTHR = 0
         self.conTHR = 0.50
-        self.con_combine_thr = 0.05
+        self.con_combine_thr = 0.08
         self.topK = 300
         self.for_num = 2
 
