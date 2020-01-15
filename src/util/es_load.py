@@ -6,8 +6,8 @@ from elasticsearch import helpers
 import yaml 
 
 ES_SERVERS = [{
-    #'host': '39.137.77.252',
-    'host': '10.10.26.43',
+    'host': '39.137.77.252',
+    #'host': '10.10.26.43',
     'port': 9200
 }]
 
@@ -23,7 +23,7 @@ def search(start,end,kpi):
 
     es_ip = config["env"][env]["es_ip"]
     es_index = config["env"][env]["es_index"]
-    ES_SERVERS[0]['host'] = (es_ip)
+    #ES_SERVERS[0]['host'] = (es_ip)
     
     #es_index = "anomaly-result-2019.12.25-final"
     es_index = "anomaly-result-new"

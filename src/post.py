@@ -3,17 +3,17 @@ import requests
 import json
 
 data={
-	"racId": "0000047",
+	"racId": "0000048",
 	"type": "item",
 	"name":"12.25",
 	"model": "iswift",
-	#"startTime": "20200103002100",
-	#"endTime": "20200103002400",
-	"startTime": "20191225161000",
-	"endTime": "20191225161500",
+	"startTime": "20200103002100",
+	"endTime": "20200103002400",
+	#"startTime": "20191225161000",
+	#"endTime": "20191225161500",
 	#"kpi": "CDN_EX_5XX_PER",
-	"kpi": "HY_EX_5XX_PER",
-	#"kpi": "OUT_FLOW",
+	#"kpi": "HY_EX_5XX_PER",
+	"kpi": "OUT_FLOW",
 	#"kpi": "CDN_TTFB",
 	#"kpi": "CDN_OUT_RATE",	
 	"remarks":"This is remarks"
