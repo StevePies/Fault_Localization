@@ -18,11 +18,11 @@ env:
       mysql_passwd: 'hpnl123456'
       mysql_database: 'aiops'
 
-      #es_ip: '39.137.77.252'
-      #es_index: 'anomaly-result-new'
+      es_ip: '39.137.77.252'
+      es_index: 'anomaly-result-new'
 
-      es_ip: '10.10.26.43'
-      es_index: 'anomaly-result-2019.12.25-final'
+      #es_ip: '10.10.26.43'
+      #es_index: 'anomaly-result-2019.12.25-final'
 
   PlatformDev:
       mysql_host: '10.10.27.130'
