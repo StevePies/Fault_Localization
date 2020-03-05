@@ -35,6 +35,7 @@ def handle_request(_rac_id,_type,_name,_model,_start,_end,_kpi,_remarks):
     locate.groupby_3d()
     locate.algorithm()
 
+
 class _restful(Resource):
     def post(self):
         try:

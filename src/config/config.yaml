@@ -1,7 +1,7 @@
 #PlatformDev：shandong
 #PlatformTest: beijing
 
-currentEnv: PlatformTest
+currentEnv: PlatformDev
 
 thread:
     thread_num : 4
@@ -17,19 +17,15 @@ env:
       mysql_user: 'root'
       mysql_passwd: 'hpnl123456'
       mysql_database: 'aiops'
-
-      es_ip: '39.137.77.252'
-      es_index: 'anomaly-result-new'
-
-      #es_ip: '10.10.26.43'
-      #es_index: 'anomaly-result-2019.12.25-final'
+      
+      es_ip: '10.10.26.43'
+      es_index: 'anomaly-result-2019.12.25-final'
 
   PlatformDev:
-      mysql_host: '10.10.27.130'
+      mysql_host: '39.137.77.247'
       mysql_user: 'root'
-      mysql_passwd: 'hpnl123456'
+      mysql_passwd: '123456'
       mysql_database: 'aiops'
 
-      es_ip: '10.10.26.43'
-      es_index: 'anomaly-result-2019.12.25-test-method'
-
+      es_ip: '39.137.77.247'
+      es_index: 'iie-aiops-location-anomaly'
