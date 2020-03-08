@@ -35,13 +35,6 @@ class Locate:
         self.list = []
         try:
             es_data = util.es_load.search(self._start,self._end,self._kpi)
-        except Exception as e:
-            sql = "UPDATE rca_task_table SET state = '4' WHERE rcaId = '"+self._task_id+"'"
-            print("es load error")
-            print(e)
-            self._remark = self._remark + "——es download data error"
-            self.db.update(sql)
-        else:
             for item in es_data:
                 temp_list = []
                 
@@ -61,14 +54,18 @@ class Locate:
 
             sql = "UPDATE rca_task_table SET state = '1' WHERE rcaId = '"+self._task_id+"'"
             self.db.update(sql)
-            print(sql)
+            path = "log/"+self._task_id
+            tt = pd.DataFrame(data=self.list)
+            if not os.path.exists(path):
+                os.makedirs(path)
+            tt.to_csv(path+"/es_dl.csv",encoding="utf-8",index=None,columns=None)
+        except Exception as e:
+            sql = "UPDATE rca_task_table SET state = '4' WHERE rcaId = '"+self._task_id+"'"
+            print("es load error")
+            print(e)
+            self._remark = self._remark + "——es download data error"
+            self.db.update(sql)
 
-                # 创建的目录
-        path = "log/"+self._task_id
-        tt = pd.DataFrame(data=self.list)
-        if not os.path.exists(path):
-            os.makedirs(path)
-        tt.to_csv(path+"/es_dl.csv",encoding="utf-8",index=None,columns=None)
        
     def dimCombination(self,dim_arr,i):
         result = []
