@@ -108,7 +108,7 @@ class _restful(Resource):
                 logging.info("success count: "+str(self.success_count))
                 return  {"code":200, "success":"true","msg":"success"}
         except Exception as e:
-                logging.info("request count: "+str(self.request_count))
+            logging.error('server_error:'+str(e))
             return {'server_error': str(e)}
 
 api.add_resource(_restful,_api)
