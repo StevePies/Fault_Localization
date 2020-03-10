@@ -4,7 +4,7 @@
 currentEnv: PlatformDev
 
 thread:
-    thread_num : 4
+    thread_num : 50
 
 flask:
     host: "0.0.0.0"
@@ -28,4 +28,4 @@ env:
       mysql_database: 'aiops'
 
       es_ip: '39.137.77.247'
-      es_index: 'iie-aiops-location-anomaly'
+      es_index: 'iie-aiops-location-ad'

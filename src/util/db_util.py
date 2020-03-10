@@ -1,7 +1,12 @@
 # -*- coding:utf-8 -*-
 import MySQLdb
-import yaml
+import yaml,time,logging
 
+now = time.strftime("%Y%m%d", time.localtime(time.time()))
+logging.basicConfig(level=logging.INFO,#控制台打印的日志级别
+                    format='%(asctime)s-%(filename)s[line:%(lineno)d]-%(levelname)s-%(thread)d:%(message)s',
+                    filename = 'logs/'+now+'.log',
+                    filemode = 'a')
 class MysqldbHelper:
     #获取数据库连接
     def __init__(self):
@@ -20,18 +25,17 @@ class MysqldbHelper:
             conn=MySQLdb.connect(host=self.host,user=self.user,passwd=self.passwd,db=self.db,port=3306,charset='utf8')
             return conn
         except MySQLdb.Error as e:
-            print ("Mysqldb Error:%s" % e)
+            logging.error("Mysqldb Error:%s" % e)
     #查询方法，使用con.cursor(MySQLdb.cursors.DictCursor),返回结果为字典    
     def select(self,sql):
         try:
             con=self.getCon()
-            print (con)
             cur=con.cursor(MySQLdb.cursors.DictCursor)
             count=cur.execute(sql)
             fc=cur.fetchall()
             return fc
         except MySQLdb.Error as e:
-            print ("Mysqldb Error:%s" % e)
+            logging.error("Mysqldb Error:%s" % e)
         finally:
             cur.close()
             con.close()
@@ -45,7 +49,7 @@ class MysqldbHelper:
             return count
         except MySQLdb.Error as e:
             con.rollback()
-            print ("Mysqldb Error:%s" % e)
+            logging.error("Mysqldb Error:%s" % e)
         finally:
             cur.close()
             con.close()
@@ -59,7 +63,7 @@ class MysqldbHelper:
             return count
         except MySQLdb.Error as e:
             con.rollback()
-            print ("Mysqldb Error:%s" % e)
+            logging.error("Mysqldb Error:%s" % e)
         finally:
             cur.close()
             con.close()

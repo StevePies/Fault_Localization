@@ -8,8 +8,13 @@ import itertools
 import csv
 import datetime
 import math 
-import json
+import json,time,logging
 
+now = time.strftime("%Y%m%d", time.localtime(time.time()))
+logging.basicConfig(level=logging.INFO,#控制台打印的日志级别
+                    format='%(asctime)s-%(filename)s[line:%(lineno)d]-%(levelname)s-%(thread)d:%(message)s',
+                    filename = 'logs/'+now+'.log',
+                    filemode = 'a')
 class iswift:
     def __init__(self,dims_list,merge_list):
         self.merge_list = merge_list 
@@ -185,8 +190,8 @@ class iswift:
         recommond_list = []
         search_set = {}
         confidence_loss = {}
+        logging.info("error_item: "+str(self.error_item))
         if(self.error_item == 0):
-            print("error_item = 0")
             return []
 
         for item in self.start_list:
@@ -210,7 +215,7 @@ class iswift:
                 confidence_loss[ix] = conf_avg
                             
                 if("hlsmgsplive.miguvideo.com" in ix):
-                    print(ix,latent_force[ix],confidence_set[ix],conf_avg)
+                    #print(ix,latent_force[ix],confidence_set[ix],conf_avg)
 
                 #if (abs(confidence_set[ix] - conf_avg) < self.con_combine_thr):
                 if (conf_avg < self.con_combine_thr):
@@ -252,7 +257,7 @@ class iswift:
                     confidence_loss[ix] = conf_avg                    
                     #print(ix, latent_force[ix], confidence_set[ix], conf_avg, support_sum)
                     if("hlsmgsplive.miguvideo.com" in ix):
-                        print(ix,latent_force[ix],confidence_set[ix],conf_avg)
+                        #print(ix,latent_force[ix],confidence_set[ix],conf_avg)
                     #if (abs(confidence_set[ix] - conf_avg) < self.con_combine_thr):
                     if (conf_avg < self.con_combine_thr):
                         recommond_list.append(ix)

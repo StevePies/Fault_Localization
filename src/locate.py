@@ -6,11 +6,17 @@ import itertools,math,sys,datetime
 from model.iswift import iswift 
 from util.db_util import MysqldbHelper
 import util.es_load 
-import os, sys
-
+import os, sys,logging,time,MySQLdb
+                    
 reload(sys)  
-sys.setdefaultencoding('utf8')   
+sys.setdefaultencoding('utf8')  
 
+now = time.strftime("%Y%m%d", time.localtime(time.time()))
+logging.basicConfig(level=logging.INFO,#控制台打印的日志级别
+                    format='%(asctime)s-%(filename)s[line:%(lineno)d]-%(levelname)s-%(thread)d:%(message)s',
+                    filename = 'logs/'+now+'.log',
+                    filemode = 'a')
+ 
 class Locate:
     def __init__(self, _task_id,_type,_name,_model,_start,_end,_kpi,_remark):
         self._task_id = _task_id
@@ -26,10 +32,10 @@ class Locate:
         
     def init_database(self):
         self.db=MysqldbHelper()   
-        sql = "insert into rca_task_table (rcaId,type,name,startTime,endTime,kpi,model,createTime,state,remarks) values ('"+\
-            self._task_id+"','"+self._type+"','"+self._name+"','"+self._start+"','"+self._end+"','"+self._kpi+"','"+self._model+"','"+self.create_time+"','"+str(0)+"','"+self._remark+"')"
+        sql = "UPDATE rca_task_table SET state = '0' WHERE rcaId = '"+self._task_id+"'"
         self.db.update(sql)
-        print(sql)
+        logging.info(str(self._task_id)+" status: init_database")
+
 
     def getDataFromES(self):
         self.list = []
@@ -37,7 +43,7 @@ class Locate:
             es_data = util.es_load.search(self._start,self._end,self._kpi)
             for item in es_data:
                 temp_list = []
-                
+                #TODO
                 temp_list.append(item['DOMAIN'])
                 temp_list.append(item['province'])            
                 temp_list.append(item['user_type'])
@@ -50,21 +56,22 @@ class Locate:
                     temp_list.append(int(item[self._kpi+'_ERROR']))
                 #temp_list.append(item['TIMESTAMP'])
                 self.list.append(temp_list)
-            print("get data from es successful!")
 
             sql = "UPDATE rca_task_table SET state = '1' WHERE rcaId = '"+self._task_id+"'"
             self.db.update(sql)
-            path = "log/"+self._task_id
-            tt = pd.DataFrame(data=self.list)
-            if not os.path.exists(path):
-                os.makedirs(path)
-            tt.to_csv(path+"/es_dl.csv",encoding="utf-8",index=None,columns=None)
+
+            logging.info(str(self._task_id)+" get data from es successful!")
+            #path = "log/"+self._task_id
+
+            #tt = pd.DataFrame(data=self.list)
+            #if not os.path.exists(path):
+            #    os.makedirs(path)
+            #tt.to_csv(path+"/es_dl.csv",encoding="utf-8",index=None,columns=None)
         except Exception as e:
             sql = "UPDATE rca_task_table SET state = '4' WHERE rcaId = '"+self._task_id+"'"
-            print("es load error")
-            print(e)
-            self._remark = self._remark + "——es download data error"
+            self._remark = self._remark + "-—es download data error"
             self.db.update(sql)
+            logging.error(str(self._task_id)+" es load error\n"+e)
 
        
     def dimCombination(self,dim_arr,i):
@@ -78,7 +85,8 @@ class Locate:
         self.d3_tree = []
         if(len(self.list) == 0):
             return
-            
+        
+        #TODO
         merge_df = pd.DataFrame(self.list,columns=['DOMAIN', 'province', 'user_type', 'os', 'cdn_server','value','error'])
     
         ix =  ['DOMAIN', 'province', 'user_type', 'os', 'cdn_server']
@@ -123,29 +131,30 @@ class Locate:
         #print("3d data length:"+str(len(self.d3_tree)))
         #print(self.list[0])
         #print(self.d3_tree[0])
+        '''
         path = "log/"+self._task_id
         tt = pd.DataFrame(data=self.d3_tree)
         if not os.path.exists(path):
             os.makedirs(path)
         tt.to_csv(path+"/d3_tree.csv",encoding="utf-8",index=None,columns=None)
-        print("groupby finished!")
+        '''
+
+        logging.info(str(self._task_id)+" status: groupby finished!")
         sql = "UPDATE rca_task_table SET state = '2' WHERE rcaId = '"+self._task_id+"'"
         self.db.update(sql)
-        print(sql)
                     
     def algorithm(self):
         #TODO
         ift = iswift(self.d3_tree,self.list)
         sql = "UPDATE rca_task_table SET state = '3' WHERE rcaId = '"+self._task_id+"'"
         self.db.update(sql)
-        print(sql)
+        logging.info(str(self._task_id)+" status: start iswift")
         rt = str(ift.run())
-        import MySQLdb
         self.result = MySQLdb.escape_string(rt)
 
         self.over_time=datetime.datetime.now().strftime('%Y%m%d%H%M%S')
         sql = "UPDATE rca_task_table SET state = '9',overTime = '"+self.over_time+"',result = '"+str(self.result)+"' WHERE rcaId = '"+self._task_id+"'"
         self.db.update(sql)
-        print(sql)
+    
 
         

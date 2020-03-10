@@ -3,7 +3,14 @@
 import elasticsearch
 import es_client
 from elasticsearch import helpers
-import yaml 
+import yaml,time,logging
+
+
+now = time.strftime("%Y%m%d", time.localtime(time.time()))
+logging.basicConfig(level=logging.INFO,#控制台打印的日志级别
+                    format='%(asctime)s-%(filename)s[line:%(lineno)d]-%(levelname)s-%(thread)d:%(message)s',
+                    filename = 'logs/'+now+'.log',
+                    filemode = 'a')
 
 ES_SERVERS = [{
     'host': '39.137.77.247',
@@ -38,7 +45,7 @@ def get_result_list(es_result):
 
 
 def get_search_result(es_search_options, index='anomaly-result'):
-    print(index,ES_SERVERS)
+    logging.info("index: "+index)
     es_result = helpers.scan(
         client=es_client,
         query=es_search_options,
@@ -68,6 +75,6 @@ def set_search_optional(start,end,kpi):
     es_search_options['query']["range"]["TIMESTAMP"]["lte"]=int(end)
     es_search_options["_source"].append(kpi)
     es_search_options["_source"].append(kpi+"_ERROR")
-    print(es_search_options)
+    logging.info(es_search_options)
     return es_search_options
 
