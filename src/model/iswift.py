@@ -214,7 +214,7 @@ class iswift:
                 conf_avg,support_sum = self.subNodeCalc(ix,confidence_set[ix])
                 confidence_loss[ix] = conf_avg
                             
-                if("hlsmgsplive.miguvideo.com" in ix):
+                #if("hlsmgsplive.miguvideo.com" in ix):
                     #print(ix,latent_force[ix],confidence_set[ix],conf_avg)
 
                 #if (abs(confidence_set[ix] - conf_avg) < self.con_combine_thr):
@@ -256,7 +256,7 @@ class iswift:
                     conf_avg,support_sum = self.subNodeCalc(ix,confidence_set[ix])
                     confidence_loss[ix] = conf_avg                    
                     #print(ix, latent_force[ix], confidence_set[ix], conf_avg, support_sum)
-                    if("hlsmgsplive.miguvideo.com" in ix):
+                    #if("hlsmgsplive.miguvideo.com" in ix):
                         #print(ix,latent_force[ix],confidence_set[ix],conf_avg)
                     #if (abs(confidence_set[ix] - conf_avg) < self.con_combine_thr):
                     if (conf_avg < self.con_combine_thr):
