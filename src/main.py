@@ -47,7 +47,7 @@ def handle_request(_rac_id,_type,_name,_model,_start,_end,_kpi,_remarks):
     logging.info(str(_rac_id)+" status: done")
 
 class _restful(Resource):
-    grequest_count = 0
+    request_count = 0
     success_count = 0
     def post(self):
         try:

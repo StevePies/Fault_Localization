@@ -4,13 +4,13 @@ import json
 
 data={
 	"racId": "0000048",
-	"type": "item",
-	"name":"12.25",
+	"type": "terminal",
+	"name":"ceshi",
 	"model": "iswift",
 	"startTime": "20200103002100",
 	"endTime": "20200103002400",
 	"kpi": "OUT_FLOW",
-	"remarks":"This is remarks"
+	"remarks":"test remarks"
 }
 print(data)
 url="http://127.0.0.1:8383/api/rcaService"

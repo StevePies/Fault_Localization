@@ -75,6 +75,6 @@ def set_search_optional(start,end,kpi):
     es_search_options['query']["range"]["TIMESTAMP"]["lte"]=int(end)
     es_search_options["_source"].append(kpi)
     es_search_options["_source"].append(kpi+"_ERROR")
-    logging.info(es_search_options)
+    #logging.info(es_search_options)
     return es_search_options
 
