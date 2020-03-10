@@ -52,6 +52,7 @@ class _restful(Resource):
     def post(self):
         try:
             self.request_count = self.request_count + 1
+            logging.info("request count: "+str(self.request_count))
             # Parse the arguments
             parser = reqparse.RequestParser()
             parser.add_argument("racId",type=str)
@@ -88,7 +89,7 @@ class _restful(Resource):
                 _kpi=="CDN_EX_5XX_PER"
             elif(_kpi=="HY_CODE_5XX_PER"):
                 _kpi=="HY_EX_5XX_PER"
-            logging.info(_rac_id,_type,_name,_model,_start,_end,_kpi,_remarks)
+            #logging.info(_rac_id,_type,_name,_model,_start,_end,_kpi,_remarks)
             if(_kpi not in kpi_list):
                 return {"code":200, "success":"false","msg":"kpi not in kpi list"}
                 logging.info(str(_rac_id)+" request kpi not in kpi list")
@@ -101,11 +102,13 @@ class _restful(Resource):
                 sql = "insert into rca_task_table (rcaId,type,name,startTime,endTime,kpi,model,createTime,state,remarks) values ('"+\
                     _rac_id+"','"+_type+"','"+_name+"','"+_start+"','"+_end+"','"+_kpi+"','"+_model+"','"+create_time+"','"+str(-1)+"','"+_remarks+"')"
                 self.db.update(sql)
-                logging.info(str(_rac_id)+" status: waitting")
+                logging.info(_rac_id+","+_type+","+_name+","+_start+","+_end+","+_kpi+","+_model+","+create_time+","+_remarks)
                 thread_pool.add_job(handle_request,*(_rac_id,_type,_name,_model,_start,_end,_kpi,_remarks))
                 self.success_count = self.success_count + 1 
+                logging.info("success count: "+str(self.success_count))
                 return  {"code":200, "success":"true","msg":"success"}
         except Exception as e:
+                logging.info("request count: "+str(self.request_count))
             return {'server_error': str(e)}
 
 api.add_resource(_restful,_api)

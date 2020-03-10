@@ -7,12 +7,12 @@ data={
 	"type": "terminal",
 	"name":"ceshi",
 	"model": "iswift",
-	"startTime": "20200103002100",
-	"endTime": "20200103002400",
-	"kpi": "OUT_FLOW",
+	"startTime": "20200309143900",
+	"endTime": "20200309144000",
+	"kpi": "OUT_RATE",
 	"remarks":"test remarks"
 }
-for i in range(0,30):
+for i in range(0,10):
 	data['racId'] = str(int(data['racId'])+1)
 
 	print(data)
