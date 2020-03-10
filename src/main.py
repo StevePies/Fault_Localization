@@ -78,17 +78,17 @@ class _restful(Resource):
             if(_kpi == "OUT_RATE"):
                 _kpi = "CDN_OUT_RATE" 
             elif(_kpi=="HIT_TTFB"):
-                _kpi=="CDN_HIT_TTFB"
+                _kpi="CDN_HIT_TTFB"
             elif(_kpi=="MISS_TTFB"):
-                _kpi=="CDN_MISS_TTFB"
+                _kpi="CDN_MISS_TTFB"
             elif(_kpi=="CDN_CODE_4XX_PER"):
-                _kpi=="CDN_EX_4XX_PER"
+                _kpi="CDN_EX_4XX_PER"
             elif(_kpi=="HY_CODE_4XX_PER"):
-                _kpi=="HY_EX_4XX_PER"
+                _kpi="HY_EX_4XX_PER"
             elif(_kpi=="CDN_CODE_5XX_PER"):
-                _kpi=="CDN_EX_5XX_PER"
+                _kpi="CDN_EX_5XX_PER"
             elif(_kpi=="HY_CODE_5XX_PER"):
-                _kpi=="HY_EX_5XX_PER"
+                _kpi="HY_EX_5XX_PER"
             #logging.info(_rac_id,_type,_name,_model,_start,_end,_kpi,_remarks)
             if(_kpi not in kpi_list):
                 return {"code":200, "success":"false","msg":"kpi not in kpi list"}
