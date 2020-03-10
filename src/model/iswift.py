@@ -73,7 +73,7 @@ class iswift:
         for item in search_set_sorted:
             if(i==self.topK):
                 break
-            temp = item[0].split("-")
+            temp = item[0].split("~")
             i=i+1
             topK.append(temp)
 
@@ -114,7 +114,7 @@ class iswift:
         #print("进入儿子节点")
         conf_avg = 0
         support_sum = 0
-        _list =  ix1.split("-")
+        _list =  ix1.split("~")
         result_list = []
         #print("============")
 
@@ -137,7 +137,7 @@ class iswift:
             return 0,0
 
         for item in result_list:
-            ix = str(item[0])+"-"+str(item[1])+"-"+str(item[2])+"-"+str(item[3])+"-"+str(item[4])
+            ix = str(item[0])+"~"+str(item[1])+"~"+str(item[2])+"~"+str(item[3])+"~"+str(item[4])
             if((item[self.dims_len+1]+item[self.dims_len]) == 0):
                 continue
             local_sup[ix]=float(item[self.dims_len+1])/float(self.error_item)
@@ -153,7 +153,7 @@ class iswift:
             return float(conf_avg)/len(result_list),support_sum
     
     def removeChildfromList(self,ix):
-        _list =  ix.split("-")
+        _list =  ix.split("~")
 
         remove_list = []
         for item in self.dims_list:
@@ -199,7 +199,7 @@ class iswift:
             if(item[self.dims_len+1]+item[self.dims_len] == 0):
                 continue
 
-            ix = str(item[0])+"-"+str(item[1])+"-"+str(item[2])+"-"+str(item[3])+"-"+str(item[4])
+            ix = str(item[0])+"~"+str(item[1])+"~"+str(item[2])+"~"+str(item[3])+"~"+str(item[4])
 
             latent_force[ix]=float(item[self.dims_len+1])/float(self.error_item)
             confidence_set[ix]=float(item[self.dims_len+1])/float(item[self.dims_len+1]+item[self.dims_len])
@@ -213,9 +213,6 @@ class iswift:
             if(latent_force[ix] > self.supTHR and confidence_set[ix]> self.conTHR):
                 conf_avg,support_sum = self.subNodeCalc(ix,confidence_set[ix])
                 confidence_loss[ix] = conf_avg
-                            
-                #if("hlsmgsplive.miguvideo.com" in ix):
-                    #print(ix,latent_force[ix],confidence_set[ix],conf_avg)
 
                 #if (abs(confidence_set[ix] - conf_avg) < self.con_combine_thr):
                 if (conf_avg < self.con_combine_thr):
@@ -226,9 +223,11 @@ class iswift:
                     continue
 
         #print(search_set)
-          
+        logging.info("first layer length: "+str(len(self.start_list)))
         search_set_sorted= sorted(search_set.items(), key=lambda item:item[1], reverse=True)
         Candidate_list = self.getCandidateList(search_set_sorted)
+
+        logging.info("search_set_sorted length: "+str(len(search_set_sorted)))
         search_set.clear()
         #print(len(Candidate_list))
         for loop in range(0,self.for_num):
@@ -237,16 +236,12 @@ class iswift:
                 normal,abnormal = self.getDataFromList(item,self.dims_list) 
                 if(normal==-1 and abnormal==-1):
                     continue
-                ix = str(item[0])+"-"+str(item[1])+"-"+str(item[2])+"-"+str(item[3])+"-"+str(item[4])
+                ix = str(item[0])+"~"+str(item[1])+"~"+str(item[2])+"~"+str(item[3])+"~"+str(item[4])
                 if(abnormal+normal == 0):
                     continue
                 latent_force[ix]=float(abnormal)/float(self.error_item)
                 confidence_set[ix]=float(abnormal)/float(abnormal+normal)
                 sp_set[ix] = self.A*latent_force[ix]+self.B*confidence_set[ix]
-                #if("iphone.cmvideo.cn" in ix and 'Android' in ix):
-                ##    print("++++++++++++++++")
-                #    print(ix,latent_force[ix],confidence_set[ix])
-                #    print("++++++++++++++++")
 
                 if(latent_force[ix]< self.cut_threshold):
                     continue
@@ -255,9 +250,7 @@ class iswift:
                 if(latent_force[ix] > self.supTHR and confidence_set[ix]> self.conTHR):
                     conf_avg,support_sum = self.subNodeCalc(ix,confidence_set[ix])
                     confidence_loss[ix] = conf_avg                    
-                    #print(ix, latent_force[ix], confidence_set[ix], conf_avg, support_sum)
-                    #if("hlsmgsplive.miguvideo.com" in ix):
-                        #print(ix,latent_force[ix],confidence_set[ix],conf_avg)
+
                     #if (abs(confidence_set[ix] - conf_avg) < self.con_combine_thr):
                     if (conf_avg < self.con_combine_thr):
                         recommond_list.append(ix)
@@ -265,16 +258,15 @@ class iswift:
                     else:
                         continue
 
-            #print("第"+str(aaa+2)+"层："+str(len(search_set)))
+            logging.info("第"+str(loop+2)+"层的search_set大小："+str(len(search_set)))
             #print(str(loop+2)+" 层的search_set大小：" + str(len(search_set)))
             search_set_sorted= sorted(search_set.items(), key=lambda item:item[1], reverse=True)
             Candidate_list = self.getCandidateList(search_set_sorted)
             search_set.clear()
 
-        #print(recommond_list)
         pod_dict = {}
         for recom in recommond_list:
-            recom_list = recom.split("-")
+            recom_list = recom.split("~")
             rx = ""
             for i in range(0,len(recom_list)):
                 if(recom_list[i]=="*"):
@@ -282,7 +274,7 @@ class iswift:
                 else:
                     rx = rx + str(i)
                 if(i < 4):
-                    rx = rx + "-"
+                    rx = rx + "~"
             if( rx not in pod_dict.keys() ):
                 pod_dict[rx] = []
             pod_dict[rx].append(recom)
