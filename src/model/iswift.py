@@ -1,20 +1,13 @@
-#!/usr/bin/python
-# coding=utf-8 
-
+#/usr/bin/env python
+# -*- coding: UTF-8 -*-
+from __future__ import print_function  
 import pandas as pd
 import numpy as np
-import yaml
-import itertools
-import csv
-import datetime
-import math 
-import json,time,logging
+import yaml,itertools,csv,datetime,math,json,time,io,sys  
 
-now = time.strftime("%Y%m%d", time.localtime(time.time()))
-logging.basicConfig(level=logging.INFO,#控制台打印的日志级别
-                    format='%(asctime)s-%(filename)s[line:%(lineno)d]-%(levelname)s-%(thread)d:%(message)s',
-                    filename = 'logs/'+now+'.log',
-                    filemode = 'a')
+
+reload(sys)  
+sys.setdefaultencoding('utf8')
 class iswift:
     def __init__(self,dims_list,merge_list):
         self.merge_list = merge_list 
@@ -190,7 +183,7 @@ class iswift:
         recommond_list = []
         search_set = {}
         confidence_loss = {}
-        logging.info("error_item: "+str(self.error_item))
+        #logging.info("error_item: "+str(self.error_item))
         if(self.error_item == 0):
             return []
 
@@ -223,11 +216,11 @@ class iswift:
                     continue
 
         #print(search_set)
-        logging.info("first layer length: "+str(len(self.start_list)))
+        #logging.info("first layer length: "+str(len(self.start_list)))
         search_set_sorted= sorted(search_set.items(), key=lambda item:item[1], reverse=True)
         Candidate_list = self.getCandidateList(search_set_sorted)
 
-        logging.info("search_set_sorted length: "+str(len(search_set_sorted)))
+        #logging.info("search_set_sorted length: "+str(len(search_set_sorted)))
         search_set.clear()
         #print(len(Candidate_list))
         for loop in range(0,self.for_num):
@@ -258,7 +251,7 @@ class iswift:
                     else:
                         continue
 
-            logging.info("第"+str(loop+2)+"层的search_set大小："+str(len(search_set)))
+            #logging.info("第"+str(loop+2)+"层的search_set大小："+str(len(search_set)))
             #print(str(loop+2)+" 层的search_set大小：" + str(len(search_set)))
             search_set_sorted= sorted(search_set.items(), key=lambda item:item[1], reverse=True)
             Candidate_list = self.getCandidateList(search_set_sorted)
@@ -334,6 +327,49 @@ class iswift:
         result = json.dumps(result)
         return(result)
 
+def read_csv(file_name):
+    f = open(file_name, 'r')
+    content = f.read()
+    final_list = list()
+    rows = content.split('\n')
+    for row in rows:
+        final_list.append(row.split(','))
+    return final_list
 
 if __name__ == "__main__":
-    pass
+    d3_tree = []
+    _list = []
+
+    d3_file = sys.argv[1]
+    es_file = sys.argv[2]
+    with io.open(d3_file , "r", encoding="utf-8") as csvfile:
+        reader = csv.reader(csvfile)
+        firstline = True
+        for line in reader:
+            if firstline:    #skip first line
+                firstline = False
+                continue
+            #print(line)
+            line[-1] = float(line[-1])
+            line[-2] = float(line[-2])
+            d3_tree.append(line)
+    with io.open(es_file , "r", encoding="utf-8") as csvfile:
+        reader = csv.reader(csvfile)
+        firstline = True
+        for line in reader:
+            if firstline:    #skip first line
+                firstline = False
+                continue
+        
+            line[-1] = float(line[-1])
+            line[-2] = float(line[-2])
+            _list.append(line)
+
+    ift = iswift(d3_tree,_list)
+
+    print(str(ift.run()),end='')
+
+
+
+
+
