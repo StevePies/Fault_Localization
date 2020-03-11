@@ -4,7 +4,7 @@
 currentEnv: PlatformDev
 
 thread:
-    thread_num : 50
+    thread_num : 10
 
 flask:
     host: "0.0.0.0"
