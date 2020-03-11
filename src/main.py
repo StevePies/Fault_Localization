@@ -52,7 +52,7 @@ class _restful(Resource):
     def post(self):
         try:
             self.request_count = self.request_count + 1
-            logging.info("request count: "+str(self.request_count))
+            #logging.info("request count: "+str(self.request_count))
             # Parse the arguments
             parser = reqparse.RequestParser()
             parser.add_argument("racId",type=str)
@@ -104,8 +104,9 @@ class _restful(Resource):
                 self.db.update(sql)
                 logging.info(_rac_id+","+_type+","+_name+","+_start+","+_end+","+_kpi+","+_model+","+create_time+","+_remarks)
                 thread_pool.add_job(handle_request,*(_rac_id,_type,_name,_model,_start,_end,_kpi,_remarks))
+                handle_request(_rac_id,_type,_name,_model,_start,_end,_kpi,_remarks)
                 self.success_count = self.success_count + 1 
-                logging.info("success count: "+str(self.success_count))
+                #logging.info("success count: "+str(self.success_count))
                 return  {"code":200, "success":"true","msg":"success"}
         except Exception as e:
             logging.error('server_error:'+str(e))

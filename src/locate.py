@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
+from subprocess import *
 import pandas as pd
 import itertools,math,sys,datetime
 from model.iswift import iswift 
@@ -61,17 +62,17 @@ class Locate:
             self.db.update(sql)
 
             logging.info(str(self._task_id)+" get data from es successful!")
-            #path = "log/"+self._task_id
+            path = "data/"+self._task_id
 
-            #tt = pd.DataFrame(data=self.list)
-            #if not os.path.exists(path):
-            #    os.makedirs(path)
-            #tt.to_csv(path+"/es_dl.csv",encoding="utf-8",index=None,columns=None)
+            tt = pd.DataFrame(data=self.list)
+            if not os.path.exists(path):
+                os.makedirs(path)
+            tt.to_csv(path+"/es_dl.csv",encoding="utf-8",index=None,columns=None)
         except Exception as e:
             sql = "UPDATE rca_task_table SET state = '4' WHERE rcaId = '"+self._task_id+"'"
             self._remark = self._remark + "-—es download data error"
             self.db.update(sql)
-            logging.error(str(self._task_id)+" es load error\n"+e)
+            logging.error(str(self._task_id)+" es load error\n"+str(e))
 
        
     def dimCombination(self,dim_arr,i):
@@ -91,7 +92,7 @@ class Locate:
     
         ix =  ['DOMAIN', 'province', 'user_type', 'os', 'cdn_server']
         
-        for i in range (1,4):
+        for i in range (1,6):
             dim_combin_list = self.dimCombination(ix,i)
             #print(dim_combin_list)
 
@@ -131,25 +132,31 @@ class Locate:
         #print("3d data length:"+str(len(self.d3_tree)))
         #print(self.list[0])
         #print(self.d3_tree[0])
-        '''
-        path = "log/"+self._task_id
+        
+        path = "data/"+self._task_id
         tt = pd.DataFrame(data=self.d3_tree)
         if not os.path.exists(path):
             os.makedirs(path)
         tt.to_csv(path+"/d3_tree.csv",encoding="utf-8",index=None,columns=None)
-        '''
-
+    
         logging.info(str(self._task_id)+" status: groupby finished!")
         sql = "UPDATE rca_task_table SET state = '2' WHERE rcaId = '"+self._task_id+"'"
         self.db.update(sql)
                     
     def algorithm(self):
         #TODO
-        ift = iswift(self.d3_tree,self.list)
         sql = "UPDATE rca_task_table SET state = '3' WHERE rcaId = '"+self._task_id+"'"
         self.db.update(sql)
         logging.info(str(self._task_id)+" status: start iswift")
-        rt = str(ift.run())
+        d3_path = "data/" + self._task_id + "/d3_tree.csv"
+        es_path = "data/" + self._task_id + "/es_dl.csv"
+        p = Popen(['python', 'offline_iswift.py',d3_path,es_path],
+                stdin=PIPE,
+                stdout=PIPE,
+                )
+        p.wait()
+        rt = p.stdout.read()
+    
         self.result = MySQLdb.escape_string(rt)
 
         self.over_time=datetime.datetime.now().strftime('%Y%m%d%H%M%S')
