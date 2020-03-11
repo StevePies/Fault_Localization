@@ -150,7 +150,7 @@ class Locate:
         logging.info(str(self._task_id)+" status: start iswift")
         d3_path = "data/" + self._task_id + "/d3_tree.csv"
         es_path = "data/" + self._task_id + "/es_dl.csv"
-        p = Popen(['python', 'offline_iswift.py',d3_path,es_path],
+        p = Popen(['python', 'model/iswift.py',d3_path,es_path],
                 stdin=PIPE,
                 stdout=PIPE,
                 )
