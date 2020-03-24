@@ -7,8 +7,36 @@
 
 ## 2. Interface
 #### RESTful API
-    
+正确请求
+{
+	"racId": "20200320001643",
+	"type": "locate-ad",
+	"domain": "ltsyd.qq.com",
+	"name": "ltsyd.qq.com",
+	"model": "iswift",
+	"startTime": "20200319235600",
+	"endTime": "20200320001300",
+	"kpi": "OUT_FLOW",
+	"remarks": "ltsyd.qq.com"
+}
+正确答复——成功
+{
+    "code": 200,
+    "msg": "success",
+    "success": "true"
+}
+正确答复——失败
+{
+	"code": 200,
+	"success": "false",
+	"msg": "missing parameter"
+} 
 
+{
+	"code": 200,
+	"success": "false",
+	"msg": "kpi not in kpi list"
+}
 ## 3. Main feature
 
 #### 3.1 RESTful API module

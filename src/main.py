@@ -24,7 +24,7 @@ _host = config["flask"]['host']
 _port = config["flask"]['port']
 _api = config["flask"]['api']
 _thread_num = config["thread"]['thread_num']
-kpi_list = ["CDN_HIT_TTFB","IN_FLOW","CDN_OUT_RATE","CDN_EX_4XX_PER","HY_EX_4XX_PER","CDN_MISS_TTFB","HIT_RATIO","OUT_FLOW","CDN_EX_5XX_PER","MISS_OUT_RATE","CDN_TTFB","HY_EX_5XX_PER"]
+kpi_list = ["CDN_HIT_TTFB","IN_FLOW","CDN_OUT_RATE","HY_EX_4XX_PER","CDN_MISS_TTFB","HIT_RATIO","OUT_FLOW","MISS_OUT_RATE","CDN_TTFB","HY_EX_5XX_PER"]
 #kpi_list = ["CDN_HIT_TTFB","IN_FLOW","CDN_OUT_RATE","CDN_EX_4XX_PER","HY_EX_4XX_PER","CDN_MISS_TTFB","HIT_RATIO","OUT_FLOW","CDN_EX_5XX_PER","MISS_OUT_RATE","CDN_TTFB","HY_EX_5XX_PER"]
 
 
@@ -56,7 +56,7 @@ class _restful(Resource):
     #success_count = 0
     def post(self):
         try:
-            self.request_count = self.request_count + 1
+            #self.request_count = self.request_count + 1
             #logging.info("request count: "+str(self.request_count))
             # Parse the arguments
             parser = reqparse.RequestParser()
