@@ -258,6 +258,7 @@ class iswift:
             search_set.clear()
 
         pod_dict = {}
+        pod_name = ['域名','用户所在地','接入网类型','操作系统','服务器']
         for recom in recommond_list:
             recom_list = recom.split("~")
             rx = ""
@@ -265,7 +266,7 @@ class iswift:
                 if(recom_list[i]=="*"):
                     rx = rx+"*"
                 else:
-                    rx = rx + str(i)
+                    rx = rx + pod_name[i]
                 if(i < 4):
                     rx = rx + "~"
             if( rx not in pod_dict.keys() ):

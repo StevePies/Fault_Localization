@@ -58,21 +58,33 @@ class Locate:
                 #temp_list.append(item['TIMESTAMP'])
                 self.list.append(temp_list)
 
-            sql = "UPDATE rca_task_table SET state = '1' WHERE rcaId = '"+self._task_id+"'"
-            self.db.update(sql)
 
-            logging.info(str(self._task_id)+" get data from es successful!")
-            path = "data/"+self._task_id
+            if(len(self.list)==0):
+                self.over_time=datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+                sql = "UPDATE rca_task_table SET state = '5',overTime = '"+self.over_time+"' WHERE rcaId = '"+self._task_id+"'"
+                self.db.update(sql)
+                logging.info(str(self._task_id)+" len(error data) = 0")
+                return 1
+                
+            else:
 
-            tt = pd.DataFrame(data=self.list)
-            if not os.path.exists(path):
-                os.makedirs(path)
-            tt.to_csv(path+"/es_dl.csv",encoding="utf-8",index=None,columns=None)
+                sql = "UPDATE rca_task_table SET state = '1' WHERE rcaId = '"+self._task_id+"'"
+                self.db.update(sql)
+
+                logging.info(str(self._task_id)+" get data from es successful!")
+                path = "data/"+self._task_id
+
+                tt = pd.DataFrame(data=self.list)
+                if not os.path.exists(path):
+                    os.makedirs(path)
+                tt.to_csv(path+"/es_dl.csv",encoding="utf-8",index=None,columns=None)
+                return 0
         except Exception as e:
             sql = "UPDATE rca_task_table SET state = '4' WHERE rcaId = '"+self._task_id+"'"
             self._remark = self._remark + "-—es download data error"
             self.db.update(sql)
             logging.error(str(self._task_id)+" es load error\n"+str(e))
+            return 1
 
        
     def dimCombination(self,dim_arr,i):
@@ -158,10 +170,14 @@ class Locate:
         rt = p.stdout.read()
     
         self.result = MySQLdb.escape_string(rt)
-
-        self.over_time=datetime.datetime.now().strftime('%Y%m%d%H%M%S')
-        sql = "UPDATE rca_task_table SET state = '9',overTime = '"+self.over_time+"',result = '"+str(self.result)+"' WHERE rcaId = '"+self._task_id+"'"
-        self.db.update(sql)
+        if(str(self.result)=="" or str(self.result)=="[]"):
+            self.over_time=datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+            sql = "UPDATE rca_task_table SET state = '6',overTime = '"+self.over_time+"',result = '"+str(self.result)+"' WHERE rcaId = '"+self._task_id+"'"
+            self.db.update(sql)
+        else:
+            self.over_time=datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+            sql = "UPDATE rca_task_table SET state = '9',overTime = '"+self.over_time+"',result = '"+str(self.result)+"' WHERE rcaId = '"+self._task_id+"'"
+            self.db.update(sql)
     
 
         
