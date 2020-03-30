@@ -11,6 +11,7 @@ flask:
     port: 8383
     api: '/api/rcaService'
 
+
 env:
   PlatformTest:
       mysql_host: '10.10.27.130'
@@ -29,3 +30,17 @@ env:
 
       es_ip: '39.137.77.247'
       es_index: 'iie-aiops-location-ad'
+
+kpis: [
+          "CDN_HIT_TTFB",
+          "IN_FLOW",
+          "CDN_OUT_RATE",
+          "HY_EX_4XX_PER",
+          "CDN_MISS_TTFB",
+          "HIT_RATIO",
+          "OUT_FLOW",
+          "MISS_OUT_RATE",
+          "CDN_TTFB",
+          "HY_EX_5XX_PER",
+          "CDN_EX_4XX_PER",
+          "CDN_EX_5XX_PER"]
