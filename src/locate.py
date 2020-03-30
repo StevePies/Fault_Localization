@@ -80,7 +80,8 @@ class Locate:
                 tt.to_csv(path+"/es_dl.csv",encoding="utf-8",index=None,columns=None)
                 return 0
         except Exception as e:
-            sql = "UPDATE rca_task_table SET state = '4' WHERE rcaId = '"+self._task_id+"'"
+            self.over_time=datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+            sql = "UPDATE rca_task_table SET state = '4' ,overTime = '"+self.over_time+"' WHERE rcaId = '"+self._task_id+"'"
             self._remark = self._remark + "-—es download data error"
             self.db.update(sql)
             logging.error(str(self._task_id)+" es load error\n"+str(e))

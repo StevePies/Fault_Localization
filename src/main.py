@@ -98,8 +98,8 @@ class _restful(Resource):
                 self.db=MysqldbHelper()   
                 create_time= datetime.datetime.now().strftime('%Y%m%d%H%M%S')
                 if(_kpi not in kpi_list):
-                    sql = "insert into rca_task_table (rcaId,type,name,startTime,endTime,kpi,model,createTime,state,remarks,domain) values ('"+\
-                    _rac_id+"','"+_type+"','"+_name+"','"+_start+"','"+_end+"','"+_kpi+"','"+_model+"','"+create_time+"','"+str(7)+"','"+_remarks+"','"+_domain+"')"
+                    sql = "insert into rca_task_table (rcaId,type,name,startTime,endTime,kpi,model,createTime,overTime,state,remarks,domain) values ('"+\
+                    _rac_id+"','"+_type+"','"+_name+"','"+_start+"','"+_end+"','"+_kpi+"','"+_model+"','"+create_time+"','"+create_time+"','"+str(7)+"','"+_remarks+"','"+_domain+"')"
                     self.db.update(sql)
                     logging.info(str(_rac_id)+" request kpi not in kpi list")
                     return {"code":200, "success":"true","msg":"kpi not in kpi list"}
