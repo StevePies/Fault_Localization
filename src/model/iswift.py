@@ -194,9 +194,9 @@ class iswift:
 
             ix = str(item[0])+"~"+str(item[1])+"~"+str(item[2])+"~"+str(item[3])+"~"+str(item[4])
 
-            latent_force[ix]=float(item[self.dims_len+1])/float(self.error_item)
-            confidence_set[ix]=float(item[self.dims_len+1])/float(item[self.dims_len+1]+item[self.dims_len])
-            sp_set[ix] = self.A * latent_force[ix]+self.B * confidence_set[ix]
+            latent_force[ix]=round(float(item[self.dims_len+1])/float(self.error_item),2)
+            confidence_set[ix]=round(float(item[self.dims_len+1])/float(item[self.dims_len+1]+item[self.dims_len]),2)
+            sp_set[ix] = round(self.A * latent_force[ix]+self.B * confidence_set[ix],2)
 
             #print(latent_force[ix])
             #print(confidence_set[ix])
@@ -205,7 +205,7 @@ class iswift:
             search_set[ix] = sp_set[ix] #第一层用latent_force剪枝之后
             if(latent_force[ix] > self.supTHR and confidence_set[ix]> self.conTHR):
                 conf_avg,support_sum = self.subNodeCalc(ix,confidence_set[ix])
-                confidence_loss[ix] = conf_avg
+                confidence_loss[ix] = round(conf_avg,2)
 
                 #if (abs(confidence_set[ix] - conf_avg) < self.con_combine_thr):
                 if (conf_avg < self.con_combine_thr):
@@ -232,9 +232,9 @@ class iswift:
                 ix = str(item[0])+"~"+str(item[1])+"~"+str(item[2])+"~"+str(item[3])+"~"+str(item[4])
                 if(abnormal+normal == 0):
                     continue
-                latent_force[ix]=float(abnormal)/float(self.error_item)
-                confidence_set[ix]=float(abnormal)/float(abnormal+normal)
-                sp_set[ix] = self.A*latent_force[ix]+self.B*confidence_set[ix]
+                latent_force[ix]=round(float(abnormal)/float(self.error_item),2)
+                confidence_set[ix]=round(float(abnormal)/float(abnormal+normal),2)
+                sp_set[ix] = round(self.A*latent_force[ix]+self.B*confidence_set[ix],2)
 
                 if(latent_force[ix]< self.cut_threshold):
                     continue
@@ -242,7 +242,7 @@ class iswift:
             
                 if(latent_force[ix] > self.supTHR and confidence_set[ix]> self.conTHR):
                     conf_avg,support_sum = self.subNodeCalc(ix,confidence_set[ix])
-                    confidence_loss[ix] = conf_avg                    
+                    confidence_loss[ix] = round(conf_avg,2)                    
 
                     #if (abs(confidence_set[ix] - conf_avg) < self.con_combine_thr):
                     if (conf_avg < self.con_combine_thr):
@@ -271,7 +271,9 @@ class iswift:
                     rx = rx + "~"
             if( rx not in pod_dict.keys() ):
                 pod_dict[rx] = []
+
             pod_dict[rx].append(recom)
+
 
         pod_filter_dict = {}
         pod_information_dict = {}
@@ -286,15 +288,13 @@ class iswift:
                 sum_t = sum_t + latent_force[item]
                 temp_lf.append(latent_force[item])
                 temp_conf.append(confidence_set[item])
-
             temp_dict['latent_force'] = temp_lf
             temp_dict['confidence'] = temp_conf
-            temp_dict['sum_latent_force'] = sum_t
+            temp_dict['sum_latent_force'] = round(sum_t,2)
             temp_dict['length'] = len(pod_dict[pod_item])
-
             pod_information_dict[pod_item]= temp_dict
             #pod_filter_dict[pod_item] = 100*(sum_t)-len(pod_dict[pod_item])
-            pod_filter_dict[pod_item] = (sum_t)/len(pod_dict[pod_item])
+            pod_filter_dict[pod_item] = round((sum_t)/len(pod_dict[pod_item]),2)
 
         pod_filter_sorted = sorted(pod_filter_dict.items(), key=lambda x: x[1], reverse=True)
         result = []
@@ -305,7 +305,25 @@ class iswift:
             rs = []
             for m in pod_dict[pod]:
                 tp_list = []
-                tp_list.append(m)
+                
+                print(m)
+                _recom = m
+                if("9999~" in m):
+                    _recom = m.replace("9999~", "其他~") 
+                if("~0~" in m):
+                    _recom = m.replace("~0~", "~手机用户~")  
+                if("~1~" in m):
+                    _recom = m.replace("~1~", "~家庭宽带~")  
+                if("~2~" in m):
+                    _recom = m.replace("~2~", "~WLAN~")  
+                if("~3~" in m):
+                    _recom = m.replace("~3~", "~集团用户~")  
+                if("~4~" in m):
+                    _recom = m.replace("~4~", "~system~")  
+                if("~9~" in m):
+                    _recom = m.replace("~9~", "~用户侧其他~") 
+                print(_recom)
+                tp_list.append(_recom)
                 tp_list.append(latent_force[m])
                 tp_list.append(confidence_set[m])
                 tp_list.append(confidence_loss[m])
@@ -318,15 +336,32 @@ class iswift:
             j = j  + 1  
             temp = {}
             temp['pod']  = item[0]
-            temp['score'] = item[1]
+            temp['score'] = round(item[1],2)
             temp['item'] = item_dict[item[0]]
-            temp['sum_latent_force'] = pod_information_dict[item[0]]['sum_latent_force']
+            temp['sum_latent_force'] = round(pod_information_dict[item[0]]['sum_latent_force'],2)
             temp['length'] = pod_information_dict[item[0]]['length']
             result.append(temp)
             #print(item[0],item[1],temp)
-
+        topResult = []
+        if(len(result)!=0):
+            if(result[0]['length']>=5):
+                for iter in range(0,5):
+                    temp = {}
+                    temp["item"] = (result[0]['item'][iter][0])
+                    temp['latent_force'] = (result[0]['item'][iter][1])
+                    topResult.append(temp)
+            else:
+                for iter in result:
+                    for it in iter['item']:
+                        temp = {}
+                        temp["item"] = (it[0])
+                        temp['latent_force'] = (it[1])
+                        topResult.append(temp)   
+                topResult = topResult[0:5]        
+         
         result = json.dumps(result)
-        return(result)
+        topResult = json.dumps(topResult)
+        return(result,topResult)
 
 def read_csv(file_name):
     f = open(file_name, 'r')

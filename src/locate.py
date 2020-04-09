@@ -170,14 +170,16 @@ class Locate:
         p.wait()
         rt = p.stdout.read()
     
-        self.result = MySQLdb.escape_string(rt)
+        self.result = MySQLdb.escape_string(rt[0])
+        self.topResult = MySQLdb.escape_string(rt[1])
+        #TODO
         if(str(self.result)=="" or str(self.result)=="[]"):
             self.over_time=datetime.datetime.now().strftime('%Y%m%d%H%M%S')
-            sql = "UPDATE rca_task_table SET state = '6',overTime = '"+self.over_time+"',result = '"+str(self.result)+"' WHERE rcaId = '"+self._task_id+"'"
+            sql = "UPDATE rca_task_table SET state = '6',overTime = '"+self.over_time+"',result = '"+str(self.result)+"',topResult='"+str(self.topResult)+"' WHERE rcaId = '"+self._task_id+"'"
             self.db.update(sql)
         else:
             self.over_time=datetime.datetime.now().strftime('%Y%m%d%H%M%S')
-            sql = "UPDATE rca_task_table SET state = '9',overTime = '"+self.over_time+"',result = '"+str(self.result)+"' WHERE rcaId = '"+self._task_id+"'"
+            sql = "UPDATE rca_task_table SET state = '9',overTime = '"+self.over_time+"',result = '"+str(self.result)+"',topResult='"+str(self.topResult)+"' WHERE rcaId = '"+self._task_id+"'"
             self.db.update(sql)
     
 
