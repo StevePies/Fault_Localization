@@ -169,7 +169,8 @@ class Locate:
                 )
         p.wait()
         rt = p.stdout.read()
-        logging.info(str(self._task_id)+type(rt)+rt)        
+        logging.info(str(self._task_id)+rt) 
+        rt = rt.split("@")
         self.result = MySQLdb.escape_string(rt[0])
         self.topResult = MySQLdb.escape_string(rt[1])
         #TODO

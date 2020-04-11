@@ -306,7 +306,6 @@ class iswift:
             for m in pod_dict[pod]:
                 tp_list = []
                 
-                print(m)
                 _recom = m
                 if("9999~" in m):
                     _recom = m.replace("9999~", "其他~") 
@@ -322,7 +321,6 @@ class iswift:
                     _recom = m.replace("~4~", "~system~")  
                 if("~9~" in m):
                     _recom = m.replace("~9~", "~用户侧其他~") 
-                print(_recom)
                 tp_list.append(_recom)
                 tp_list.append(latent_force[m])
                 tp_list.append(confidence_set[m])
@@ -361,10 +359,8 @@ class iswift:
          
         result = json.dumps(result)
         topResult = json.dumps(topResult)
-        _rs = []
-        _rs.append(result)
-        _rs.append(topResult) 
-        return _rs
+
+        return str(result)+"@"+str(topResult)
 
 def read_csv(file_name):
     f = open(file_name, 'r')
