@@ -361,7 +361,10 @@ class iswift:
          
         result = json.dumps(result)
         topResult = json.dumps(topResult)
-        return(result,topResult)
+        _rs = []
+        _rs.append(result)
+        _rs.append(topResult) 
+        return _rs
 
 def read_csv(file_name):
     f = open(file_name, 'r')

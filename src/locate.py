@@ -169,7 +169,7 @@ class Locate:
                 )
         p.wait()
         rt = p.stdout.read()
-    
+        rt = list(rt)
         self.result = MySQLdb.escape_string(rt[0])
         self.topResult = MySQLdb.escape_string(rt[1])
         #TODO
